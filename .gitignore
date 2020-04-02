@@ -1,4 +1,5 @@
-.idea
+.idea/
 /vendor/
 *.swp
 *.cache
+.gitignore.swp
