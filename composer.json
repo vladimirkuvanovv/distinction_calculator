@@ -1,5 +1,5 @@
 {
-    "name": "util/diffutility",
+    "name": "utilitypack/diffutility",
     "type": "library",
     "description": "cli tool",
     "keywords": [
