@@ -1,5 +1,5 @@
 {
-    "name": "brgames/games",
+    "name": "util/diffutility",
     "type": "library",
     "description": "cli tool",
     "keywords": [
