@@ -1,0 +1,27 @@
+{
+    "name": "brgames/games",
+    "type": "library",
+    "description": "cli tool",
+    "keywords": [
+        "cli",
+        "tool"
+    ],
+    "license": "MIT",
+    "bin": [
+        "bin/gendiff"
+    ],
+    "authors": [
+        {
+            "name": "Vladimir",
+            "email": "vovan986021@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/docopt.php"
+        ]
+    },
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
