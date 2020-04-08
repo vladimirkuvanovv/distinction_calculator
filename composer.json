@@ -16,13 +16,17 @@
             "email": "vovan986021@gmail.com"
         }
     ],
+    "scripts": {
+        "phpcs": "phpcs"
+    },
     "autoload": {
         "files": [
-            "src/docopt.php"
+            "src/getInfo.php"
         ]
     },
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"
