@@ -21,12 +21,14 @@
     },
     "autoload": {
         "files": [
-            "src/getInfo.php"
+            "src/getInfo.php",
+            "src/genDiff.php"
         ]
     },
     "require": {
         "docopt/docopt": "^1.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "funct/funct": "^1.5"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"

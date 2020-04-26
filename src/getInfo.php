@@ -2,7 +2,8 @@
 
 namespace Gendiff;
 
-use \Docopt;
+use Docopt;
+use function Gendiff\getDifferenceFiles;
 
 function getGenDiffInfo()
 {
@@ -22,7 +23,24 @@ Options:
 
 DOCOPT;
 
-    $result = Docopt::handle($doc, array('version' => '1.0.0rc2'));
-    foreach ($result as $k => $v)
-        echo $k . ': ' . json_encode($v) . PHP_EOL;
+    $result = Docopt::handle($doc,['version' => '1.0.0rc2']);
+
+    $argv1 = '';
+    $argv2 = '';
+
+    foreach ($result as $k => $v) {
+        if ($k == '<firstFile>') {
+            $argv1 = $v;
+        }
+
+        if ($k == '<secondFile>') {
+            $argv2 = $v;
+        }
+    }
+
+   if (!empty($argv1) && !empty($argv2)) {
+       echo getDifferenceFiles($argv1, $argv2);
+   } else {
+       echo 'wrong arguments';
+   }
 }
