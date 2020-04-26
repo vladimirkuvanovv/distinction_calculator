@@ -3,6 +3,7 @@
 namespace Gendiff;
 
 use Docopt;
+
 use function Gendiff\getDifferenceFiles;
 
 function getGenDiffInfo()
