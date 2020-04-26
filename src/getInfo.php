@@ -23,7 +23,7 @@ Options:
 
 DOCOPT;
 
-    $result = Docopt::handle($doc,['version' => '1.0.0rc2']);
+    $result = Docopt::handle($doc, ['version' => '1.0.0rc2']);
 
     $argv1 = '';
     $argv2 = '';
@@ -38,9 +38,9 @@ DOCOPT;
         }
     }
 
-   if (!empty($argv1) && !empty($argv2)) {
-       echo getDifferenceFiles($argv1, $argv2);
-   } else {
-       echo 'wrong arguments';
-   }
+    if (!empty($argv1) && !empty($argv2)) {
+        echo getDifferenceFiles($argv1, $argv2);
+    } else {
+        echo 'wrong arguments';
+    }
 }
