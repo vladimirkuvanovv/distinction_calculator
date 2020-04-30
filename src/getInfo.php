@@ -4,11 +4,9 @@ namespace Gendiff;
 
 use Docopt;
 
-use function Gendiff\getDifferenceFiles;
+use function Gendiff\genDiff;
 
-function getGenDiffInfo()
-{
-    $doc = <<<'DOCOPT'
+const DOC = <<<'DOCOPT'
 
 Generate diff
 
@@ -24,24 +22,17 @@ Options:
 
 DOCOPT;
 
-    $result = Docopt::handle($doc, ['version' => '1.0.0rc2']);
+function getGenDiffInfo()
+{
+    $result = Docopt::handle(DOC, ['version' => '1.0.0rc2']);
+    $argv2 = $result->args['<secondFile>'] ?? '';
+    $argv1 = $result->args['<firstFile>'] ?? '';
 
-    $argv1 = '';
-    $argv2 = '';
-
-    foreach ($result as $k => $v) {
-        if ($k == '<firstFile>') {
-            $argv1 = $v;
+    if ($argv1 && $argv2) {
+        try {
+            var_export(genDiff($argv1, $argv2));
+        } catch (\Exception $e) {
+            echo $e->getMessage() . "\n";
         }
-
-        if ($k == '<secondFile>') {
-            $argv2 = $v;
-        }
-    }
-
-    if (!empty($argv1) && !empty($argv2)) {
-        echo getDifferenceFiles($argv1, $argv2);
-    } else {
-        echo 'wrong arguments';
     }
 }
