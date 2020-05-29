@@ -1,10 +1,10 @@
 <?php
 
-namespace Gendiff;
+namespace App\Gendiff;
 
 use Docopt;
 
-use function Gendiff\genDiff;
+use function App\Gendiff\genDiff;
 
 const DOC = <<<'DOCOPT'
 
