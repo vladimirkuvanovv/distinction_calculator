@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff;
+namespace App\Gendiff;
 
 function genDiff($pathToFileBefore, $pathToFileAfter)
 {
