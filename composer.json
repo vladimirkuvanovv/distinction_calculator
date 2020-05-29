@@ -20,6 +20,9 @@
         "phpcs": "phpcs"
     },
     "autoload": {
+        "psr-4": {
+            "App\\Tests\\": "tests"
+        },
         "files": [
             "src/getInfo.php",
             "src/genDiff.php"
