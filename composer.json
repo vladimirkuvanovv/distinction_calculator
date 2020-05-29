@@ -31,6 +31,7 @@
         "funct/funct": "^1.5"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "^7.5"
     }
 }
