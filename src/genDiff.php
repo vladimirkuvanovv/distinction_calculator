@@ -23,7 +23,7 @@ function getResultOfDifference(array $result)
             $resultForString[] = sprintf('+  %s: %s', $key, toString($item['value']));
             $resultForString[] = sprintf('-  %s: %s', $key, toString($item['diff']));
         } elseif (isset($item['value'])) {
-            $resultForString[] = sprintf('+   %s: %s', $key, toString($item['value']));
+            $resultForString[] = sprintf('+  %s: %s', $key, toString($item['value']));
         }
     }
 
