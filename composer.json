@@ -17,7 +17,11 @@
         }
     ],
     "scripts": {
-        "phpcs": "phpcs"
+        "phpcs": "phpcs",
+        "psysh": "psysh",
+        "phpcbf": "phpcbf",
+        "phpunit": "phpunit",
+        "test": "phpunit tests"
     },
     "autoload": {
         "psr-4": {
