@@ -32,8 +32,7 @@ class GenDiffTest extends TestCase
     {
         $this->expectException(\Exception::class);
 
-        getContent( '/fixtures/before.json');
-
+        getContent('/fixtures/before.json');
     }
 
     /**
