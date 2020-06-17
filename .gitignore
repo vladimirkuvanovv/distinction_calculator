@@ -3,4 +3,4 @@
 *.swp
 *.cache
 .gitignore.swp
-/build/
+/build/*

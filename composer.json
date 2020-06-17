@@ -29,13 +29,15 @@
         },
         "files": [
             "src/getInfo.php",
-            "src/genDiff.php"
+            "src/genDiff.php",
+            "src/parsers.php"
         ]
     },
     "require": {
         "docopt/docopt": "^1.0",
         "ext-json": "*",
-        "funct/funct": "^1.5"
+        "funct/funct": "^1.5",
+        "symfony/yaml": "^4.4"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
