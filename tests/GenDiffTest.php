@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use function App\Gendiff\genDiff;
 use function App\Gendiff\getContent;
 use function App\Gendiff\compareArrays;
+use function App\Gendiff\getResultOfDifference;
 
 class GenDiffTest extends TestCase
 {
@@ -36,14 +37,24 @@ class GenDiffTest extends TestCase
     }
 
     /**
-     * @dataProvider additionProvider
+     * @dataProvider additionProviderForCompareArrays
      */
     public function testCompareArrays($first, $second, $expected)
     {
         $this->assertEquals($expected, compareArrays($first, $second));
     }
 
-    public function additionProvider()
+    /**
+     * @dataProvider additionProvider
+     * @param $data
+     */
+    public function testResultOfDifference($data)
+    {
+        $expected = file_get_contents(__DIR__ . '/fixtures/right');
+        $this->assertEquals($expected, getResultOfDifference($data));
+    }
+
+    public function additionProviderForCompareArrays()
     {
         return [
             [
@@ -57,6 +68,20 @@ class GenDiffTest extends TestCase
                     'host' => 'hexlet.io',
                     'verbose' => true
                 ],
+                [
+                    'host' => ['value' => 'hexlet.io'],
+                    'timeout' => ['value' => 20, 'diff' => 50],
+                    'proxy' => ['diff' => '123.234.53.22', 'value' => null],
+                    'verbose' => ['value' => true, 'diff' => null]
+                ],
+            ],
+        ];
+    }
+
+    public function additionProvider()
+    {
+        return [
+            [
                 [
                     'host' => ['value' => 'hexlet.io'],
                     'timeout' => ['value' => 20, 'diff' => 50],
