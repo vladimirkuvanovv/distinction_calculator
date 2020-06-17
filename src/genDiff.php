@@ -2,10 +2,12 @@
 
 namespace App\Gendiff;
 
-function genDiff($pathToFileBefore, $pathToFileAfter)
+use function App\Gendiff\getObjectFromFile;
+
+function genDiff($pathToFileBefore, $pathToFileAfter, $format = '')
 {
-    $beforeDecode = json_decode(getContent($pathToFileBefore), true);
-    $afterDecode = json_decode(getContent($pathToFileAfter), true);
+    $beforeDecode = (array) getObjectFromFile($pathToFileBefore, $format);
+    $afterDecode  = (array) getObjectFromFile($pathToFileAfter, $format);
 
     return getResultOfDifference(compareArrays($beforeDecode, $afterDecode));
 }
@@ -69,25 +71,6 @@ function compareArrays($first, $second)
     }
 
     return $result;
-}
-
-function getContent($pathToFile)
-{
-    $realPath = realpath($pathToFile);
-
-    if (!$realPath) {
-        throw new \Exception("Wrong file path {$pathToFile}");
-    }
-
-    if (!file_exists($realPath)) {
-        throw new \Exception("File {$realPath} does not exist");
-    }
-
-    if (is_dir($realPath)) {
-        throw new \Exception("{$realPath} is directory");
-    }
-
-    return file_get_contents($realPath);
 }
 
 function toString($value)
