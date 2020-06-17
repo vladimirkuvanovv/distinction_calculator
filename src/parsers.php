@@ -4,14 +4,6 @@ namespace App\Gendiff;
 
 use Symfony\Component\Yaml\Yaml;
 
-$autoloadPath1 = __DIR__ . '/../../../autoload.php';
-$autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
-if (file_exists($autoloadPath1)) {
-    require_once $autoloadPath1;
-} else {
-    require_once $autoloadPath2;
-}
-
 function getObjectFromFile($pathToFile, $format = '')
 {
     if (!$format) {
@@ -22,10 +14,10 @@ function getObjectFromFile($pathToFile, $format = '')
 
     $result = [];
     switch ($format) {
-        case 'json' :
+        case 'json':
             $result = parseJson($content);
             break;
-        case 'yaml' :
+        case 'yaml':
             $result = parseYaml($content);
             break;
     }
