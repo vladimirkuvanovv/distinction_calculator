@@ -32,7 +32,8 @@
             "src/getInfo.php",
             "src/genDiff.php",
             "src/parsers.php",
-            "src/render.php"
+            "src/render.php",
+            "src/builder.php"
         ]
     },
     "require": {

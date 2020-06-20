@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use function App\Gendiff\genDiff;
 use function App\Gendiff\getContent;
-use function App\Gendiff\compareArrays;
+use function App\Gendiff\builderTree;
 use function App\Gendiff\getResultOfDifference;
 
 class GenDiffTest extends TestCase
@@ -37,14 +37,14 @@ class GenDiffTest extends TestCase
     }
 
     /**
-     * @dataProvider additionProviderForCompareArrays
+     * @dataProvider additionProviderForbuilderTree
      */
-    public function testCompareArrays($first, $second, $expected)
+    public function testbuilderTree($first, $second, $expected)
     {
-        $this->assertEquals($expected, compareArrays($first, $second));
+        $this->assertEquals($expected, builderTree($first, $second));
     }
 
-    public function additionProviderForCompareArrays()
+    public function additionProviderForbuilderTree()
     {
         return [
             [
