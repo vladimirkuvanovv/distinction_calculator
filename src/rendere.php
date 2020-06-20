@@ -2,7 +2,7 @@
 
 namespace App\Gendiff;
 
-function getResultOfDifference(array $result)
+function renderReport(array $result)
 {
     $resultForString = [];
 

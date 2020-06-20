@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use function App\Gendiff\genDiff;
 use function App\Gendiff\getContent;
 use function App\Gendiff\builderTree;
-use function App\Gendiff\getResultOfDifference;
+use function App\Gendiff\renderReport;
 
 class GenDiffTest extends TestCase
 {

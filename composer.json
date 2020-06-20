@@ -32,7 +32,7 @@
             "src/getInfo.php",
             "src/genDiff.php",
             "src/parsers.php",
-            "src/render.php",
+            "src/rendere.php",
             "src/builder.php"
         ]
     },

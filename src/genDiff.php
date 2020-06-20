@@ -7,7 +7,7 @@ function genDiff($pathToFileBefore, $pathToFileAfter, $format = '')
     $beforeDecode = getObjectFromFile($pathToFileBefore, $format);
     $afterDecode  = getObjectFromFile($pathToFileAfter, $format);
 
-    return getResultOfDifference(builderTree($beforeDecode, $afterDecode));
+    return renderReport(builderTree($beforeDecode, $afterDecode));
 }
 
 function getObjectFromFile($pathToFile, $format = '')
