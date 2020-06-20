@@ -10,17 +10,17 @@ function getResultOfDifference(array $result)
         switch ($item['type']) {
             case 'unchanged':
                 $resultForString[] = sprintf('   %s: %s', $item['node'], toString($item['value']));
-                continue;
+                break;
             case 'changed':
                 $resultForString[] = sprintf('+  %s: %s', $item['node'], toString($item['value']));
                 $resultForString[] = sprintf('-  %s: %s', $item['node'], toString($item['prevValue']));
-                continue;
+                break;
             case 'removed':
                 $resultForString[] = sprintf('-  %s: %s', $item['node'], toString($item['value']));
-                continue;
+                break;
             case 'added':
                 $resultForString[] = sprintf('+  %s: %s', $item['node'], toString($item['value']));
-                continue;
+                break;
         }
     }
 
