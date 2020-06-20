@@ -44,16 +44,6 @@ class GenDiffTest extends TestCase
         $this->assertEquals($expected, compareArrays($first, $second));
     }
 
-    /**
-     * @dataProvider additionProvider
-     * @param $data
-     */
-    public function testResultOfDifference($data)
-    {
-        $expected = file_get_contents(__DIR__ . '/fixtures/right');
-        $this->assertEquals($expected, getResultOfDifference($data));
-    }
-
     public function additionProviderForCompareArrays()
     {
         return [
@@ -69,24 +59,27 @@ class GenDiffTest extends TestCase
                     'verbose' => true
                 ],
                 [
-                    'host'    => ['value' => 'hexlet.io'],
-                    'timeout' => ['value' => 20, 'diff' => 50],
-                    'proxy'   => ['diff'  => '123.234.53.22', 'value' => null],
-                    'verbose' => ['value' => true, 'diff' => null]
-                ],
-            ],
-        ];
-    }
-
-    public function additionProvider()
-    {
-        return [
-            [
-                [
-                    'host'    => ['value' => 'hexlet.io'],
-                    'timeout' => ['value' => 20, 'diff' => 50],
-                    'proxy'   => ['diff' => '123.234.53.22', 'value' => null],
-                    'verbose' => ['value' => true, 'diff' => null]
+                    [
+                        'node'  => 'host',
+                        'type'  => 'unchanged',
+                        'value' => 'hexlet.io'
+                    ],
+                    [
+                        'node'  => 'timeout',
+                        'type'  => 'changed',
+                        'prevValue' => '50',
+                        'value' => '20'
+                    ],
+                    [
+                        'node'  => 'proxy',
+                        'type'  => 'removed',
+                        'value' => '123.234.53.22'
+                    ],
+                    [
+                        'node'  => 'verbose',
+                        'type'  => 'added',
+                        'value' => true
+                    ],
                 ],
             ],
         ];

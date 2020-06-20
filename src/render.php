@@ -7,20 +7,22 @@ function getResultOfDifference(array $result)
     $resultForString = [];
 
     foreach ($result as $item) {
-        switch ($item['type']) {
-            case 'unchanged':
-                $resultForString[] = sprintf('   %s: %s', $item['node'], toString($item['value']));
-                break;
-            case 'changed':
-                $resultForString[] = sprintf('+  %s: %s', $item['node'], toString($item['value']));
-                $resultForString[] = sprintf('-  %s: %s', $item['node'], toString($item['prevValue']));
-                break;
-            case 'removed':
-                $resultForString[] = sprintf('-  %s: %s', $item['node'], toString($item['value']));
-                break;
-            case 'added':
-                $resultForString[] = sprintf('+  %s: %s', $item['node'], toString($item['value']));
-                break;
+        if (is_array($item)) {
+            switch ($item['type']) {
+                case 'unchanged':
+                    $resultForString[] = sprintf('   %s: %s', $item['node'], toString($item['value']));
+                    break;
+                case 'changed':
+                    $resultForString[] = sprintf('+  %s: %s', $item['node'], toString($item['value']));
+                    $resultForString[] = sprintf('-  %s: %s', $item['node'], toString($item['prevValue']));
+                    break;
+                case 'removed':
+                    $resultForString[] = sprintf('-  %s: %s', $item['node'], toString($item['value']));
+                    break;
+                case 'added':
+                    $resultForString[] = sprintf('+  %s: %s', $item['node'], toString($item['value']));
+                    break;
+            }
         }
     }
 
