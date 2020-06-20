@@ -27,12 +27,12 @@ function getObjectFromFile($pathToFile, $format = '')
 
 function parseJson($content)
 {
-    return json_decode($content);
+    return json_decode($content, true);
 }
 
 function parseYaml($content)
 {
-    return Yaml::parse($content, Yaml::PARSE_OBJECT_FOR_MAP);
+    return Yaml::parse($content);
 }
 
 function getContent($pathToFile)
