@@ -59,19 +59,19 @@ class GenDiffTest extends TestCase
         return [
             [
                 [
-                    'host' => 'hexlet.io',
+                    'host'    => 'hexlet.io',
                     'timeout' => 50,
-                    'proxy' => '123.234.53.22'
+                    'proxy'   => '123.234.53.22'
                 ],
                 [
                     'timeout' => 20,
-                    'host' => 'hexlet.io',
+                    'host'    => 'hexlet.io',
                     'verbose' => true
                 ],
                 [
-                    'host' => ['value' => 'hexlet.io'],
+                    'host'    => ['value' => 'hexlet.io'],
                     'timeout' => ['value' => 20, 'diff' => 50],
-                    'proxy' => ['diff' => '123.234.53.22', 'value' => null],
+                    'proxy'   => ['diff'  => '123.234.53.22', 'value' => null],
                     'verbose' => ['value' => true, 'diff' => null]
                 ],
             ],
@@ -83,9 +83,9 @@ class GenDiffTest extends TestCase
         return [
             [
                 [
-                    'host' => ['value' => 'hexlet.io'],
+                    'host'    => ['value' => 'hexlet.io'],
                     'timeout' => ['value' => 20, 'diff' => 50],
-                    'proxy' => ['diff' => '123.234.53.22', 'value' => null],
+                    'proxy'   => ['diff' => '123.234.53.22', 'value' => null],
                     'verbose' => ['value' => true, 'diff' => null]
                 ],
             ],
