@@ -10,7 +10,6 @@ function builderTree($first, $second)
         if (isset($first[$child], $second[$child]) && is_array($first[$child]) && is_array($second[$child])) {
             return [
                 'node'     => $child,
-                'type'     => 'unchanged',
                 'children' => builderTree($first[$child], $second[$child])
             ];
         }
