@@ -18,19 +18,20 @@ Usage:
 Options:
   -h --help       Show this screen
   -v --version    Show version and exit
-  --format <fmt>  Report format [default: json]
+  --format <fmt>  Report format [default: pretty]
 
 DOCOPT;
 
 function getGenDiffInfo()
 {
     $result = Docopt::handle(DOC, ['version' => '1.0.0rc2']);
-    $argv2 = $result->args['<secondFile>'] ?? '';
+    $format = $result->args['--format'];
     $argv1 = $result->args['<firstFile>'] ?? '';
+    $argv2 = $result->args['<secondFile>'] ?? '';
 
     if ($argv1 && $argv2) {
         try {
-            var_export(genDiff($argv1, $argv2));
+            var_export(genDiff($argv1, $argv2, $format));
         } catch (\Exception $e) {
             echo $e->getMessage() . "\n";
         }
