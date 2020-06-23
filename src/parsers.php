@@ -4,6 +4,27 @@ namespace App\Gendiff;
 
 use Symfony\Component\Yaml\Yaml;
 
+function getObjectFromFile($pathToFile, $format)
+{
+    if (!$format) {
+        $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
+    }
+
+    $content = getContent($pathToFile);
+
+    $result = [];
+    switch ($format) {
+        case 'json':
+            $result = parseJson($content);
+            break;
+        case 'yaml':
+            $result = parseYaml($content);
+            break;
+    }
+
+    return $result;
+}
+
 function parseJson($content)
 {
     return json_decode($content, true);

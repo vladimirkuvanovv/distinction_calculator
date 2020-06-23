@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use function App\Gendiff\genDiff;
 use function App\Gendiff\getContent;
 use function App\Gendiff\builderTree;
-use function App\Gendiff\renderReport;
+use function App\Gendiff\renderPretty;
 
 class GenDiffTest extends TestCase
 {
