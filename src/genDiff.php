@@ -2,31 +2,22 @@
 
 namespace App\Gendiff;
 
-function genDiff($pathToFileBefore, $pathToFileAfter, $format = '')
+use function App\Gendiff\Formatter\renderPlain;
+use function App\Gendiff\Formatter\renderPretty;
+
+function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
 {
-    $beforeDecode = getObjectFromFile($pathToFileBefore, $format);
-    $afterDecode  = getObjectFromFile($pathToFileAfter, $format);
+    $beforeDecode = getObjectFromFile($pathToFileBefore);
+    $afterDecode  = getObjectFromFile($pathToFileAfter);
 
-    return renderReport(builderTree($beforeDecode, $afterDecode));
-}
+    $tree = builderTree($beforeDecode, $afterDecode);
 
-function getObjectFromFile($pathToFile, $format = '')
-{
-    if (!$format) {
-        $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    }
-
-    $content = getContent($pathToFile);
-
-    $result = [];
     switch ($format) {
-        case 'json':
-            $result = parseJson($content);
+        case 'pretty':
+            return renderPretty($tree);
             break;
-        case 'yaml':
-            $result = parseYaml($content);
+        case 'plain':
+            return renderPlain($tree);
             break;
     }
-
-    return $result;
 }

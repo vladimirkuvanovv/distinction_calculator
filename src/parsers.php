@@ -4,11 +4,9 @@ namespace App\Gendiff;
 
 use Symfony\Component\Yaml\Yaml;
 
-function getObjectFromFile($pathToFile, $format)
+function getObjectFromFile($pathToFile)
 {
-    if (!$format) {
-        $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    }
+    $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
     $content = getContent($pathToFile);
 

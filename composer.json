@@ -32,7 +32,8 @@
             "src/getInfo.php",
             "src/genDiff.php",
             "src/parsers.php",
-            "src/formaterrs/rendere.php",
+            "src/formaterrs/renderPretty.php",
+            "src/formaterrs/renderPlain.php",
             "src/builder.php"
         ]
     },
