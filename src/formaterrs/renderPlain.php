@@ -9,24 +9,24 @@ function renderPlain(array $tree)
 
 function buildPlain($tree, $acc)
 {
-    $resultForPlain = array_map(function ($item) use ($acc) {
+    $resultForPlain = array_map(function ($property) use ($acc) {
         $acc = sprintf(
             !empty($acc) ? '%s.%s' : '%s',
-            !empty($acc) ? $acc : $item['key'],
-            !empty($acc) ? $item['key'] : ''
+            !empty($acc) ? $acc : $property['key'],
+            !empty($acc) ? $property['key'] : ''
         );
 
-        if ($item['type']) {
-            switch ($item['type']) {
+        if ($property['type']) {
+            switch ($property['type']) {
                 case 'nested':
-                    return buildPlain($item['children'], $acc);
+                    return buildPlain($property['children'], $acc);
                     break;
                 case 'changed':
                     $resultPlain[] = sprintf(
                         "Property '%s' was changed. From '%s' to '%s'",
                         $acc,
-                        toString($item['currentValue']),
-                        toString($item['previousValue'])
+                        toString($property['currentValue']),
+                        toString($property['previousValue'])
                     );
                     break;
                 case 'removed':
@@ -36,7 +36,7 @@ function buildPlain($tree, $acc)
                     $resultPlain[] = sprintf(
                         "Property '%s' was added with value: '%s'",
                         $acc,
-                        toString($item['currentValue'])
+                        toString($property['currentValue'])
                     );
                     break;
             }
