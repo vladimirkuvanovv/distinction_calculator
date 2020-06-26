@@ -31,7 +31,7 @@ function getGenDiffInfo()
 
     if ($argv1 && $argv2) {
         try {
-            var_export(genDiff($argv1, $argv2, $format));
+            print_r(genDiff($argv1, $argv2, $format));
         } catch (\Exception $e) {
             echo $e->getMessage() . "\n";
         }

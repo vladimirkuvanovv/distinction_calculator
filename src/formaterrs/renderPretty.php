@@ -2,6 +2,8 @@
 
 namespace App\Gendiff\Formatter;
 
+use function App\Gendiff\Helper\toString;
+
 function renderPretty(array $tree)
 {
     $resultForString = array_map(function ($item) {
@@ -34,17 +36,4 @@ function renderPretty(array $tree)
     array_push($resultForString, '}');
 
     return implode(PHP_EOL, $resultForString);
-}
-
-function toString($value)
-{
-    if (is_bool($value)) {
-        return $value ? 'true' : 'false';
-    }
-
-    if (is_array($value)) {
-        return 'complex value';
-    }
-
-    return $value;
 }

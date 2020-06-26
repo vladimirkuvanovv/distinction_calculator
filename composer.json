@@ -34,6 +34,7 @@
             "src/parsers.php",
             "src/formaterrs/renderPretty.php",
             "src/formaterrs/renderPlain.php",
+            "src/helper/converterToString.php",
             "src/builder.php"
         ]
     },
