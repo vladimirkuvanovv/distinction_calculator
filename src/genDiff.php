@@ -4,6 +4,7 @@ namespace App\Gendiff;
 
 use function App\Gendiff\Formatter\renderPlain;
 use function App\Gendiff\Formatter\renderPretty;
+use function App\Gendiff\Formatter\renderJson;
 
 function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
 {
@@ -18,6 +19,9 @@ function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
             break;
         case 'plain':
             return renderPlain($tree);
+            break;
+        case 'json':
+            return renderJson($tree);
             break;
     }
 }
