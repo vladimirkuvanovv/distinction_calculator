@@ -12,6 +12,10 @@ function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
     $afterDecode  = getObjectFromFile($pathToFileAfter);
 
     $tree = builderTree($beforeDecode, $afterDecode);
+    
+    if (!in_array($format, ['pretty', 'plain', 'json'])) {
+        throw new \Exception('undefined format for render');
+    }
 
     switch ($format) {
         case 'pretty':

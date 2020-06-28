@@ -4,8 +4,6 @@ namespace App\Gendiff;
 
 use Docopt;
 
-use function App\Gendiff\genDiff;
-
 const DOC = <<<'DOCOPT'
 
 Generate diff
