@@ -12,8 +12,11 @@ class GenDiffTest extends TestCase
 {
     public function testGenDiff()
     {
-        $expected = file_get_contents(__DIR__ . '/fixtures/right');
-        $this->assertEquals($expected, genDiff(__DIR__ . '/fixtures/before.json', __DIR__ . '/fixtures/after.json'));
+        $expected = file_get_contents(__DIR__ . '/fixtures/rightPretty');
+        $this->assertEquals($expected, genDiff(
+            __DIR__ . '/fixtures/before.json',
+            __DIR__ . '/fixtures/after.json'
+        ));
 
         $wrong_expected = file_get_contents(__DIR__ . '/fixtures/wrong');
         $this->assertNotEquals($wrong_expected, genDiff(
@@ -36,14 +39,14 @@ class GenDiffTest extends TestCase
     }
 
     /**
-     * @dataProvider additionProviderForbuilderTree
+     * @dataProvider additionProviderForBuilderTree
      */
-    public function testbuilderTree($first, $second, $expected)
+    public function testBuilderTree($first, $second, $expected)
     {
         $this->assertEquals($expected, builderTree($first, $second));
     }
 
-    public function additionProviderForbuilderTree()
+    public function additionProviderForBuilderTree()
     {
         return [
             [
@@ -59,25 +62,25 @@ class GenDiffTest extends TestCase
                 ],
                 [
                     [
-                        'node'  => 'host',
+                        'key'  => 'host',
                         'type'  => 'unchanged',
-                        'value' => 'hexlet.io'
+                        'currentValue' => 'hexlet.io'
                     ],
                     [
-                        'node'  => 'timeout',
-                        'type'  => 'changed',
-                        'prevValue' => '50',
-                        'value' => '20'
+                        'key'           => 'timeout',
+                        'type'          => 'changed',
+                        'previousValue' => '50',
+                        'currentValue'  => '20'
                     ],
                     [
-                        'node'  => 'proxy',
-                        'type'  => 'removed',
-                        'value' => '123.234.53.22'
+                        'key'           => 'proxy',
+                        'type'          => 'removed',
+                        'previousValue' => '123.234.53.22'
                     ],
                     [
-                        'node'  => 'verbose',
-                        'type'  => 'added',
-                        'value' => true
+                        'key'          => 'verbose',
+                        'type'         => 'added',
+                        'currentValue' => true
                     ],
                 ],
             ],
