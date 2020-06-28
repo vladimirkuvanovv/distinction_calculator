@@ -35,8 +35,8 @@ function getValueForNode($property, $acc)
                 $resultPlain[] = sprintf(
                     "Property '%s' was changed. From '%s' to '%s'",
                     getFullPropertyName($acc),
-                    toStringForPlainRender($property['currentValue']),
-                    toStringForPlainRender($property['previousValue'])
+                    toStringForRenderPlain($property['currentValue']),
+                    toStringForRenderPlain($property['previousValue'])
                 );
                 break;
             case 'removed':
@@ -46,7 +46,7 @@ function getValueForNode($property, $acc)
                 $resultPlain[] = sprintf(
                     "Property '%s' was added with value: '%s'",
                     getFullPropertyName($acc),
-                    toStringForPlainRender($property['currentValue'])
+                    toStringForRenderPlain($property['currentValue'])
                 );
                 break;
         }
@@ -55,6 +55,8 @@ function getValueForNode($property, $acc)
             return implode(PHP_EOL, $resultPlain);
         }
     }
+
+    return null;
 }
 
 function getFullPropertyName($acc)
@@ -62,7 +64,7 @@ function getFullPropertyName($acc)
     return implode('.', $acc);
 }
 
-function toStringForPlainRender($value)
+function toStringForRenderPlain($value)
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';

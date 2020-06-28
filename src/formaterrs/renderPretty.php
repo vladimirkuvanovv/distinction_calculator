@@ -52,6 +52,8 @@ function buildPretty($tree, $level = 0)
 
             return implode(PHP_EOL, $resultString);
         }
+
+        return null;
     }, $tree);
 
     array_unshift($resultForString, '{');

@@ -47,6 +47,8 @@ function builderTree($first, $second)
                 'currentValue' => $second[$key],
             ];
         }
+
+        return [];
     }, $unique_keys);
 }
 
