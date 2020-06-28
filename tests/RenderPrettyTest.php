@@ -23,10 +23,10 @@ class RenderPrettyTest extends TestCase
             __DIR__ . '/fixtures/after.json'
         ));
 
-        /*$wrong_expected = file_get_contents(__DIR__ . '/fixtures/wrong');
+        $wrong_expected = file_get_contents(__DIR__ . '/fixtures/wrongPrettyTree');
         $this->assertNotEquals($wrong_expected, genDiff(
-            __DIR__ . '/fixtures/before.json',
-            __DIR__ . '/fixtures/after.json'
-        ));*/
+            __DIR__ . '/fixtures/bef.json',
+            __DIR__ . '/fixtures/aft.json'
+        ));
     }
 }
