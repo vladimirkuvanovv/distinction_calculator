@@ -2,8 +2,6 @@
 
 namespace App\Gendiff\Formatter;
 
-use function App\Gendiff\Helper\toString;
-
 function renderPlain(array $tree)
 {
     return buildPlain($tree);
@@ -12,6 +10,7 @@ function renderPlain(array $tree)
 function buildPlain($tree, $acc = [])
 {
     $resultForPlain = [];
+
     foreach ($tree as $property) {
         $value = getValueForNode($property, $acc);
         if ($value) {
@@ -36,8 +35,8 @@ function getValueForNode($property, $acc)
                 $resultPlain[] = sprintf(
                     "Property '%s' was changed. From '%s' to '%s'",
                     getFullPropertyName($acc),
-                    toString($property['currentValue']),
-                    toString($property['previousValue'])
+                    toStringForPlainRender($property['currentValue']),
+                    toStringForPlainRender($property['previousValue'])
                 );
                 break;
             case 'removed':
@@ -47,7 +46,7 @@ function getValueForNode($property, $acc)
                 $resultPlain[] = sprintf(
                     "Property '%s' was added with value: '%s'",
                     getFullPropertyName($acc),
-                    toString($property['currentValue'])
+                    toStringForPlainRender($property['currentValue'])
                 );
                 break;
         }
@@ -61,4 +60,17 @@ function getValueForNode($property, $acc)
 function getFullPropertyName($acc)
 {
     return implode('.', $acc);
+}
+
+function toStringForPlainRender($value)
+{
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+
+    if (is_array($value)) {
+        return 'complex value';
+    }
+
+    return $value;
 }

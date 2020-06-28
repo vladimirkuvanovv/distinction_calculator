@@ -2,29 +2,51 @@
 
 namespace App\Gendiff\Formatter;
 
-use function App\Gendiff\Helper\toString;
-
 function renderPretty(array $tree)
 {
-    $resultForString = array_map(function ($item) {
-        if ($item['type']) {
-            switch ($item['type']) {
+    return buildPretty($tree);
+}
+
+function buildPretty($tree, $level = 0)
+{
+    $offset = getOffset($level);
+    $resultForString = array_map(function ($property) use ($level, $offset) {
+        $property_name = $property['key'];
+
+        if ($property['type']) {
+            switch ($property['type']) {
                 case 'nested':
-                    $newChildren = renderPretty($item['children']);
-                    return '   ' . $item['key'] . ':' . $newChildren;
+                    $level += 1;
+                    $offset = getOffset($level);
+                    $newChildren = buildPretty($property['children'], $level);
+                    return $offset . "$property_name: " . $newChildren;
                     break;
                 case 'unchanged':
-                    $resultString[] = sprintf('   %s: %s', $item['key'], toString($item['currentValue']));
+                    $level += 2;
+                    $resultString[] = $offset
+                        . "    $property_name: "
+                        . toStringForRenderPretty($property['currentValue'], $level);
                     break;
                 case 'changed':
-                    $resultString[] = sprintf('+  %s: %s', $item['key'], toString($item['currentValue']));
-                    $resultString[] = sprintf('-  %s: %s', $item['key'], toString($item['previousValue']));
+                    $level += 2;
+                    $resultString[] = $offset
+                        . "  + $property_name: "
+                        . toStringForRenderPretty($property['currentValue'], $level);
+                    $resultString[] = $offset
+                        . "  - $property_name: "
+                        . toStringForRenderPretty($property['previousValue'], $level);
                     break;
                 case 'removed':
-                    $resultString[] = sprintf('-  %s: %s', $item['key'], toString($item['previousValue']));
+                    $level += 2;
+                    $resultString[] = $offset
+                        . "  - $property_name: "
+                        . toStringForRenderPretty($property['previousValue'], $level);
                     break;
                 case 'added':
-                    $resultString[] = sprintf('+  %s: %s', $item['key'], toString($item['currentValue']));
+                    $level += 2;
+                    $resultString[] = $offset
+                        . "  + $property_name: "
+                        . toStringForRenderPretty($property['currentValue'], $level);
                     break;
             }
 
@@ -33,7 +55,39 @@ function renderPretty(array $tree)
     }, $tree);
 
     array_unshift($resultForString, '{');
-    array_push($resultForString, '}');
+    array_push($resultForString, $offset . "}");
 
     return implode(PHP_EOL, $resultForString);
+}
+
+function toStringForRenderPretty($value, $level = 0)
+{
+    $offset = 0;
+
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+
+    if (is_array($value)) {
+        if ($level) {
+            $offset = getOffset($level);
+        }
+
+        foreach ($value as $key => $val) {
+            $nestedString[] = $offset . "$key: $val";
+        }
+
+        array_unshift($nestedString, '{');
+        array_push($nestedString, getOffset($level - 1) . '}');
+
+        return implode(PHP_EOL, $nestedString);
+    }
+
+    return $value;
+}
+
+function getOffset($level)
+{
+    $spaces = '    ';
+    return str_repeat($spaces, $level);
 }
