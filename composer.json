@@ -35,6 +35,7 @@
             "src/formaterrs/renderPretty.php",
             "src/formaterrs/renderPlain.php",
             "src/formaterrs/renderJson.php",
+            "src/helper/converterToString.php",
             "src/builder.php"
         ]
     },
