@@ -36,6 +36,14 @@ class GenDiffTest extends TestCase
         $this->expectException(\Exception::class);
 
         getContent('/fixtures/before.json');
+
+        $this->expectException(\Exception::class);
+
+        genDiff(
+            __DIR__ . '/fixtures/before.json',
+            __DIR__ . '/fixtures/after.json',
+            'pre'
+        );
     }
 
     /**
@@ -62,8 +70,8 @@ class GenDiffTest extends TestCase
                 ],
                 [
                     [
-                        'key'  => 'host',
-                        'type'  => 'unchanged',
+                        'key'          => 'host',
+                        'type'         => 'unchanged',
                         'currentValue' => 'hexlet.io'
                     ],
                     [
