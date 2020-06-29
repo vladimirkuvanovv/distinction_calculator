@@ -52,7 +52,7 @@ function getValueForNode($property, $acc)
         }
 
         if (isset($resultPlain)) {
-            return implode(PHP_EOL, array_filter($resultPlain));
+            return implode(PHP_EOL, $resultPlain);
         }
     }
 }
