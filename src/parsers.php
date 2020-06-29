@@ -15,7 +15,7 @@ function getObjectFromFile($pathToFile)
         case 'json':
             $result = parseJson($content);
             break;
-        case 'yaml':
+        case 'yml':
             $result = parseYaml($content);
             break;
     }
