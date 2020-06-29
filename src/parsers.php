@@ -20,6 +20,10 @@ function getObjectFromFile($pathToFile)
             break;
     }
 
+    if (!$result) {
+        throw new \Exception('unknown files');
+    }
+
     return $result;
 }
 
