@@ -57,9 +57,9 @@ function buildPretty($tree, $level = 0)
     }, $tree);
 
     array_unshift($resultForString, '{');
-    array_push($resultForString, $offset . "}" . PHP_EOL);
+    array_push($resultForString, $offset . "}");
 
-    return implode(PHP_EOL, $resultForString);
+    return implode(PHP_EOL, array_filter($resultForString));
 }
 
 function toStringForRenderPretty($value, $level = 0)
