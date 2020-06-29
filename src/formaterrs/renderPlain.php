@@ -18,7 +18,9 @@ function buildPlain($tree, $acc = [])
         }
     }
 
-    return implode(PHP_EOL, array_filter($resultForPlain));
+    return implode(PHP_EOL, array_filter($resultForPlain, function ($item) {
+        return !empty($item);
+    }));
 }
 
 function getValueForNode($property, $acc)
@@ -55,6 +57,8 @@ function getValueForNode($property, $acc)
             return implode(PHP_EOL, $resultPlain);
         }
     }
+
+    return null;
 }
 
 function getFullPropertyName($acc)
