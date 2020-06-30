@@ -2,30 +2,19 @@
 
 namespace App\Gendiff;
 
-use function App\Gendiff\Formatter\renderPlain;
-use function App\Gendiff\Formatter\renderPretty;
-use function App\Gendiff\Formatter\renderJson;
+use function App\Gendiff\Formatters\renderDiff;
 
 function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
 {
-    $beforeDecode = getObjectFromFile($pathToFileBefore);
-    $afterDecode  = getObjectFromFile($pathToFileAfter);
+    try {
+        $beforeDecode = getObjectFromFile($pathToFileBefore);
+        $afterDecode  = getObjectFromFile($pathToFileAfter);
 
-    $tree = builderTree($beforeDecode, $afterDecode);
-    
-    if (!in_array($format, ['pretty', 'plain', 'json'])) {
-        throw new \Exception('undefined format for render');
-    }
+        $tree = builderTree($beforeDecode, $afterDecode);
 
-    switch ($format) {
-        case 'pretty':
-            return renderPretty($tree);
-            break;
-        case 'plain':
-            return renderPlain($tree);
-            break;
-        case 'json':
-            return renderJson($tree);
-            break;
+        return renderDiff($format, $tree);
+
+    } catch (\Exception $e) {
+        echo $e->getMessage();
     }
 }
