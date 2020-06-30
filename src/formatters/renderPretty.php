@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gendiff\Formatter;
+namespace App\Gendiff\Formatters;
 
 function renderPretty(array $tree)
 {
@@ -10,8 +10,10 @@ function renderPretty(array $tree)
 function buildPretty($tree, $level = 0)
 {
     $offset = getOffset($level);
+
     $resultForString = array_map(function ($property) use ($level, $offset) {
         $property_name = $property['key'];
+        $resultString = [];
 
         if ($property['type']) {
             switch ($property['type']) {
@@ -65,6 +67,7 @@ function buildPretty($tree, $level = 0)
 function toStringForRenderPretty($value, $level = 0)
 {
     $offset = 0;
+    $nestedString = [];
 
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -75,9 +78,11 @@ function toStringForRenderPretty($value, $level = 0)
             $offset = getOffset($level);
         }
 
-        foreach ($value as $key => $val) {
-            $nestedString[] = $offset . "$key: $val";
-        }
+        $keys = array_keys($value);
+
+        $nestedString = array_map(function ($key) use ($offset, $value) {
+            return $offset . "$key: " . $value[$key];
+        }, $keys);
 
         array_unshift($nestedString, '{');
         array_push($nestedString, getOffset($level - 1) . '}');

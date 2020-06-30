@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gendiff\Formatter;
+namespace App\Gendiff\Formatters;
 
 function renderPlain(array $tree)
 {
@@ -11,12 +11,19 @@ function buildPlain($tree, $acc = [])
 {
     $resultForPlain = [];
 
-    foreach ($tree as $property) {
+/*    foreach ($tree as $property) {
         $value = getValueForNode($property, $acc);
         if ($value) {
             $resultForPlain[] = $value;
         }
-    }
+    }*/
+
+    $resultForPlain = array_map(function ($property) use ($acc) {
+        if (isset($property)) {
+            $newChildren = getValueForNode($property, $acc);
+            return $newChildren;
+        }
+    }, $tree);
 
     return implode(PHP_EOL, array_filter($resultForPlain, function ($item) {
         return !empty($item);
