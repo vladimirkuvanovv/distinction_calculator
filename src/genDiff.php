@@ -13,7 +13,6 @@ function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
         $tree = builderTree($beforeDecode, $afterDecode);
 
         return renderDiff($format, $tree);
-
     } catch (\Exception $e) {
         echo $e->getMessage();
     }
