@@ -1,11 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-namespace App;
-
-use \Docopt;
-
-use function App\Gendiff\genDiff;
+namespace Gendiff;
 
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
@@ -31,9 +27,6 @@ Options:
 
 DOCOPT;
 
-$result = Docopt::handle(DOC, ['version' => '1.0.0rc2']);
-$format = $result->args['--format'];
-$argv1 = $result->args['<firstFile>'] ?? '';
-$argv2 = $result->args['<secondFile>'] ?? '';
+$args = \Docopt::handle(DOC, ['version' => '1.0.0rc2']);
 
-print_r(genDiff($argv1, $argv2, $format));
+print_r(genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']));
