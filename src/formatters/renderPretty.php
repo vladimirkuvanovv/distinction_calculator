@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Gendiff\Formatters;
+namespace Gendiff\Formatters;
 
-function renderPretty(array $tree)
+function renderPretty(array $properties)
 {
-    return buildPretty($tree);
+    return buildPretty($properties);
 }
 
-function buildPretty($tree, $level = 0)
+function buildPretty($properties, $level = 0)
 {
     $offset = getOffset($level);
 
@@ -20,9 +20,8 @@ function buildPretty($tree, $level = 0)
                 case 'nested':
                     $level += 1;
                     $offset = getOffset($level);
-                    $newChildren = buildPretty($property['children'], $level);
-                    return $offset . "$property_name: " . $newChildren;
-                    break;
+                    $newProperties = buildPretty($property['children'], $level);
+                    return $offset . "$property_name: " . $newProperties;
                 case 'unchanged':
                     $level += 2;
                     $resultString[] = $offset
@@ -56,7 +55,7 @@ function buildPretty($tree, $level = 0)
         }
 
         return null;
-    }, $tree);
+    }, $properties);
 
     array_unshift($resultForString, '{');
     array_push($resultForString, $offset . "}");
@@ -66,17 +65,12 @@ function buildPretty($tree, $level = 0)
 
 function toStringForRenderPretty($value, $level = 0)
 {
-    $offset = 0;
-    $nestedString = [];
-
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
     }
 
     if (is_array($value)) {
-        if ($level) {
-            $offset = getOffset($level);
-        }
+        $offset = getOffset($level);
 
         $keys = array_keys($value);
 

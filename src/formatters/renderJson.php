@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gendiff\Formatters;
+namespace Gendiff\Formatters;
 
 function renderJson(array $tree)
 {

@@ -1,65 +1,65 @@
 <?php
 
-namespace App\Gendiff;
+namespace Gendiff;
 
-function builderTree($first, $second)
+function builderTree($beforeDiffProperties, $afterDiffProperties)
 {
-    $unique_keys = getUniqueKeys($first, $second);
+    $unique_keys = array_values(
+        array_unique(array_merge(array_keys($beforeDiffProperties), array_keys($afterDiffProperties)))
+    );
 
-    return array_map(function ($key) use ($first, $second) {
-        if (isset($first[$key], $second[$key]) && is_array($first[$key]) && is_array($second[$key])) {
+    return array_map(function ($key) use ($beforeDiffProperties, $afterDiffProperties) {
+        if (
+            isset($beforeDiffProperties[$key], $afterDiffProperties[$key])
+            && is_array($beforeDiffProperties[$key])
+            && is_array($afterDiffProperties[$key])
+        ) {
             return [
                 'key'      => $key,
                 'type'     => 'nested',
-                'children' => builderTree($first[$key], $second[$key])
+                'children' => builderTree($beforeDiffProperties[$key], $afterDiffProperties[$key])
             ];
         }
 
-        if (isset($first[$key], $second[$key]) && ($first[$key] !== $second[$key])) {
+        if (
+            isset($beforeDiffProperties[$key], $afterDiffProperties[$key])
+            && ($beforeDiffProperties[$key] !== $afterDiffProperties[$key])
+        ) {
             return [
                 'key'           => $key,
                 'type'          => 'changed',
-                'previousValue' => $first[$key],
-                'currentValue'  => $second[$key]
+                'previousValue' => $beforeDiffProperties[$key],
+                'currentValue'  => $afterDiffProperties[$key]
             ];
         }
 
-        if (isset($first[$key], $second[$key]) && ($first[$key] === $second[$key])) {
+        if (
+            isset($beforeDiffProperties[$key], $afterDiffProperties[$key])
+            && ($beforeDiffProperties[$key] === $afterDiffProperties[$key])
+        ) {
             return [
                 'key'          => $key,
                 'type'         => 'unchanged',
-                'currentValue' => $first[$key],
+                'currentValue' => $beforeDiffProperties[$key],
             ];
         }
 
-        if (isset($first[$key]) && !isset($second[$key])) {
+        if (isset($beforeDiffProperties[$key]) && !isset($afterDiffProperties[$key])) {
             return [
                 'key'           => $key,
                 'type'          => 'removed',
-                'previousValue' => $first[$key],
+                'previousValue' => $beforeDiffProperties[$key],
             ];
         }
 
-        if (!isset($first[$key]) && isset($second[$key])) {
+        if (!isset($beforeDiffProperties[$key]) && isset($afterDiffProperties[$key])) {
             return [
                 'key'          => $key,
                 'type'         => 'added',
-                'currentValue' => $second[$key],
+                'currentValue' => $afterDiffProperties[$key],
             ];
         }
 
         return [];
     }, $unique_keys);
-}
-
-function getUniqueKeys($first, $second)
-{
-    return array_values(
-        array_unique(
-            array_merge(
-                isset($first) ? array_keys($first) : [],
-                isset($second) ? array_keys($second) : []
-            )
-        )
-    );
 }

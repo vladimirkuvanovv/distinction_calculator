@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Gendiff;
+namespace Gendiff;
 
-use function App\Gendiff\Formatters\renderDiff;
+use function Gendiff\Formatters\renderDiff;
 
 function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
 {
-    try {
-        $beforeDecode = getObjectFromFile($pathToFileBefore);
-        $afterDecode  = getObjectFromFile($pathToFileAfter);
+    $beforeDecode = getDecodedProperties($pathToFileBefore);
+    $afterDecode  = getDecodedProperties($pathToFileAfter);
 
-        $tree = builderTree($beforeDecode, $afterDecode);
+    $tree = builderTree($beforeDecode, $afterDecode);
 
-        return renderDiff($format, $tree);
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
+    return renderDiff($format, $tree);
 }

@@ -1,40 +1,27 @@
 <?php
 
-namespace App\Gendiff;
+namespace Gendiff;
 
 use Symfony\Component\Yaml\Yaml;
 
-function getObjectFromFile($pathToFile)
+function getDecodedProperties($pathToFile)
 {
-    $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
+    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
-    $content = getContent($pathToFile);
+    try {
+        $content = getContent($pathToFile);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
 
-    $result = [];
-    switch ($format) {
+    switch ($extension) {
         case 'json':
-            $result = parseJson($content);
-            break;
+            return json_decode($content, true);
         case 'yml':
-            $result = parseYaml($content);
-            break;
+            return Yaml::parse($content);
+        default:
+            throw new \Exception('unknown files');
     }
-
-    if (!$result) {
-        throw new \Exception('unknown files');
-    }
-
-    return $result;
-}
-
-function parseJson($content)
-{
-    return json_decode($content, true);
-}
-
-function parseYaml($content)
-{
-    return Yaml::parse($content);
 }
 
 function getContent($pathToFile)
@@ -42,15 +29,7 @@ function getContent($pathToFile)
     $realPath = realpath($pathToFile);
 
     if (!$realPath) {
-        throw new \Exception("Wrong file path {$pathToFile}");
-    }
-
-    if (!file_exists($realPath)) {
-        throw new \Exception("File {$realPath} does not exist");
-    }
-
-    if (is_dir($realPath)) {
-        throw new \Exception("{$realPath} is directory");
+        throw new \Exception('wrong file path');
     }
 
     return file_get_contents($realPath);

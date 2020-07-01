@@ -1,76 +1,51 @@
 <?php
 
-namespace App\Gendiff\Formatters;
+namespace Gendiff\Formatters;
 
-function renderPlain(array $tree)
+function renderPlain(array $properties)
 {
-    return buildPlain($tree);
+    return buildPlain($properties);
 }
 
-function buildPlain($tree, $acc = [])
+function buildPlain($properties, $fullNameProperty = '')
 {
-    $resultForPlain = [];
+    $resultForPlain = array_map(function ($property) use ($fullNameProperty) {
+        $key = $property['key'];
+        $fullNameProperty .= $key;
+        if ($property['type']) {
+            switch ($property['type']) {
+                case 'nested':
+                    return buildPlain($property['children'], "$fullNameProperty.");
+                    break;
+                case 'changed':
+                    $resultPlain[] = sprintf(
+                        "Property '{$fullNameProperty}' was changed. From '%s' to '%s'",
+                        toStringForRenderPlain($property['previousValue']),
+                        toStringForRenderPlain($property['currentValue'])
+                    );
+                    break;
+                case 'removed':
+                    $resultPlain[] = sprintf("Property '{$fullNameProperty}' was removed");
+                    break;
+                case 'added':
+                    $resultPlain[] = sprintf(
+                        "Property '{$fullNameProperty}' was added with value: '%s'",
+                        toStringForRenderPlain($property['currentValue'])
+                    );
+                    break;
+            }
 
-/*    foreach ($tree as $property) {
-        $value = getValueForNode($property, $acc);
-        if ($value) {
-            $resultForPlain[] = $value;
+            if (isset($resultPlain)) {
+                return implode(PHP_EOL, $resultPlain);
+            }
         }
-    }*/
 
-    $resultForPlain = array_map(function ($property) use ($acc) {
-        if (isset($property)) {
-            $newChildren = getValueForNode($property, $acc);
-            return $newChildren;
-        }
-    }, $tree);
+        return null;
+    }, $properties);
 
     return implode(PHP_EOL, array_filter($resultForPlain, function ($item) {
         return !empty($item);
     }));
-}
-
-function getValueForNode($property, $acc)
-{
-    $key = $property['key'];
-    $acc[] = $key;
-
-    if ($property['type']) {
-        switch ($property['type']) {
-            case 'nested':
-                return buildPlain($property['children'], $acc);
-                break;
-            case 'changed':
-                $resultPlain[] = sprintf(
-                    "Property '%s' was changed. From '%s' to '%s'",
-                    getFullPropertyName($acc),
-                    toStringForRenderPlain($property['currentValue']),
-                    toStringForRenderPlain($property['previousValue'])
-                );
-                break;
-            case 'removed':
-                $resultPlain[] = sprintf("Property '%s' was removed", getFullPropertyName($acc));
-                break;
-            case 'added':
-                $resultPlain[] = sprintf(
-                    "Property '%s' was added with value: '%s'",
-                    getFullPropertyName($acc),
-                    toStringForRenderPlain($property['currentValue'])
-                );
-                break;
-        }
-
-        if (isset($resultPlain)) {
-            return implode(PHP_EOL, $resultPlain);
-        }
-    }
-
-    return null;
-}
-
-function getFullPropertyName($acc)
-{
-    return implode('.', $acc);
 }
 
 function toStringForRenderPlain($value)
