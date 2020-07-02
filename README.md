@@ -9,6 +9,8 @@
 
 ## Утилита осуществляет поиск различий между двумя файлами ##
 
+### Установка: composer global require utilitypack/diffutility###
+
 ## 1. Вывод справочной информации ##
 
 [![asciicast](https://asciinema.org/a/344044.svg)](https://asciinema.org/a/344044)
