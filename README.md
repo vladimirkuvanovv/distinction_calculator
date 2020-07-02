@@ -27,7 +27,7 @@
 
 ## 5. Рекурсивное сравнение в plain-формате ##
 
-
+[![asciicast](https://asciinema.org/a/344952.svg)](https://asciinema.org/a/344952)
 
 ## 6. Рекурсивное сравнение в json-формате ##
 
