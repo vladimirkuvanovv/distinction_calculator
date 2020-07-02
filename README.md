@@ -25,5 +25,10 @@
 
 [![asciicast](https://asciinema.org/a/344059.svg)](https://asciinema.org/a/344059)
 
-5. Вывод результата сравнения в plain-формате
+5. Рекурсивное сравнение в plain-формате
 
+
+
+6. Рекурсивное сравнение в json-формате
+
+[![asciicast](https://asciinema.org/a/344952.svg)](https://asciinema.org/a/344952)
