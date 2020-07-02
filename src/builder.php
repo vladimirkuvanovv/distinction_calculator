@@ -2,61 +2,61 @@
 
 namespace Gendiff;
 
-function builderTree($beforeDiffProperties, $afterDiffProperties)
+function builderTree($beforeProperties, $afterProperties)
 {
     $unique_keys = array_values(
-        array_unique(array_merge(array_keys($beforeDiffProperties), array_keys($afterDiffProperties)))
+        array_unique(array_merge(array_keys($beforeProperties), array_keys($afterProperties)))
     );
 
-    return array_map(function ($key) use ($beforeDiffProperties, $afterDiffProperties) {
+    return array_map(function ($key) use ($beforeProperties, $afterProperties) {
         if (
-            isset($beforeDiffProperties[$key], $afterDiffProperties[$key])
-            && is_array($beforeDiffProperties[$key])
-            && is_array($afterDiffProperties[$key])
+            isset($beforeProperties[$key], $afterProperties[$key])
+            && is_array($beforeProperties[$key])
+            && is_array($afterProperties[$key])
         ) {
             return [
                 'key'      => $key,
                 'type'     => 'nested',
-                'children' => builderTree($beforeDiffProperties[$key], $afterDiffProperties[$key])
+                'children' => builderTree($beforeProperties[$key], $afterProperties[$key])
             ];
         }
 
         if (
-            isset($beforeDiffProperties[$key], $afterDiffProperties[$key])
-            && ($beforeDiffProperties[$key] !== $afterDiffProperties[$key])
+            isset($beforeProperties[$key], $afterProperties[$key])
+            && ($beforeProperties[$key] !== $afterProperties[$key])
         ) {
             return [
                 'key'           => $key,
                 'type'          => 'changed',
-                'previousValue' => $beforeDiffProperties[$key],
-                'currentValue'  => $afterDiffProperties[$key]
+                'previousValue' => $beforeProperties[$key],
+                'currentValue'  => $afterProperties[$key]
             ];
         }
 
         if (
-            isset($beforeDiffProperties[$key], $afterDiffProperties[$key])
-            && ($beforeDiffProperties[$key] === $afterDiffProperties[$key])
+            isset($beforeProperties[$key], $afterProperties[$key])
+            && ($beforeProperties[$key] === $afterProperties[$key])
         ) {
             return [
                 'key'          => $key,
                 'type'         => 'unchanged',
-                'currentValue' => $beforeDiffProperties[$key],
+                'currentValue' => $beforeProperties[$key],
             ];
         }
 
-        if (isset($beforeDiffProperties[$key]) && !isset($afterDiffProperties[$key])) {
+        if (isset($beforeProperties[$key]) && !isset($afterProperties[$key])) {
             return [
                 'key'           => $key,
                 'type'          => 'removed',
-                'previousValue' => $beforeDiffProperties[$key],
+                'previousValue' => $beforeProperties[$key],
             ];
         }
 
-        if (!isset($beforeDiffProperties[$key]) && isset($afterDiffProperties[$key])) {
+        if (!isset($beforeProperties[$key]) && isset($afterProperties[$key])) {
             return [
                 'key'          => $key,
                 'type'         => 'added',
-                'currentValue' => $afterDiffProperties[$key],
+                'currentValue' => $afterProperties[$key],
             ];
         }
 
