@@ -29,4 +29,4 @@ DOCOPT;
 
 $args = \Docopt::handle(DOC, ['version' => '1.0.0rc2']);
 
-print_r(genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']));
+print_r(genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format'])) . PHP_EOL;
