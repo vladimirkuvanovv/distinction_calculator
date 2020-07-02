@@ -57,4 +57,45 @@ class GenDiffTest extends TestCase
 
         getContent(__DIR__ . '/fixtures/befor.json');
     }
+
+    /**
+     * @dataProvider additionProviderForBuilderTree
+     */
+    public function testDecodedJsonProperties($expected)
+    {
+        $this->assertEquals($expected, getDecodedProperties($this->beforeJsonFilePath));
+    }
+
+    /**
+     * @dataProvider additionProviderForBuilderTree
+     */
+    public function testDecodedYamlProperties($expected)
+    {
+        $this->assertEquals($expected, getDecodedProperties($this->beforeYmlFilePath));
+    }
+
+    public function additionProviderForBuilderTree()
+    {
+        return [
+            [
+                [
+                    "common" => [
+                        "setting1" => "Value 1",
+                        "setting2" => "200",
+                        "setting3" => true,
+                        "setting6" => [
+                            "key" => "value"
+                        ],
+                    ],
+                    "group1" => [
+                        "baz" => "bas",
+                        "foo" => "bar"
+                    ],
+                    "group2" => [
+                        "abc" => "12345"
+                    ],
+                ]
+            ],
+        ];
+    }
 }
