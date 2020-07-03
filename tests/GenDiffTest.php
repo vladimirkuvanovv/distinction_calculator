@@ -8,7 +8,6 @@ use function Gendiff\Differ\genDiff;
 use function Gendiff\Parsers\getContent;
 use function Gendiff\Parsers\getDecodedProperties;
 
-
 class GenDiffTest extends TestCase
 {
     protected $rightPrettyFilePath = '';
