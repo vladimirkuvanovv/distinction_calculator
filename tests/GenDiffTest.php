@@ -4,9 +4,10 @@ namespace Gendiff\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Gendiff\genDiff;
-use function Gendiff\getContent;
-use function Gendiff\getDecodedProperties;
+use function Gendiff\Differ\genDiff;
+use function Gendiff\Parsers\getContent;
+use function Gendiff\Parsers\getDecodedProperties;
+
 
 class GenDiffTest extends TestCase
 {
@@ -63,7 +64,8 @@ class GenDiffTest extends TestCase
      */
     public function testDecodedJsonProperties($expected)
     {
-        $this->assertEquals($expected, getDecodedProperties($this->beforeJsonFilePath));
+        $extensionFile = pathinfo($this->beforeJsonFilePath, PATHINFO_EXTENSION);
+        $this->assertEquals($expected, getDecodedProperties($extensionFile, getContent($this->beforeJsonFilePath)));
     }
 
     /**
@@ -71,7 +73,8 @@ class GenDiffTest extends TestCase
      */
     public function testDecodedYamlProperties($expected)
     {
-        $this->assertEquals($expected, getDecodedProperties($this->beforeYmlFilePath));
+        $extensionFile = pathinfo($this->beforeYmlFilePath, PATHINFO_EXTENSION);
+        $this->assertEquals($expected, getDecodedProperties($extensionFile, getContent($this->beforeYmlFilePath)));
     }
 
     public function additionProviderForBuilderTree()

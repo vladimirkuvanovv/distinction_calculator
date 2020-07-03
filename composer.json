@@ -13,7 +13,7 @@
     "authors": [
         {
             "name": "Vladimir",
-            "email": "vovan986021@gmail.com"
+            "email": "vladimirkuvanovv@gmail.com"
         }
     ],
     "scripts": {
@@ -29,13 +29,13 @@
             "Gendiff\\Tests\\": "tests"
         },
         "files": [
-            "src/genDiff.php",
-            "src/parsers.php",
-            "src/formatters/renderPretty.php",
-            "src/formatters/renderPlain.php",
-            "src/formatters/renderJson.php",
-            "src/formatters/formatters.php",
-            "src/builder.php"
+            "src/Differ.php",
+            "src/Parsers.php",
+            "src/formatters/RenderPretty.php",
+            "src/formatters/RenderPlain.php",
+            "src/formatters/RenderJson.php",
+            "src/formatters/Formatters.php",
+            "src/Builder.php"
         ]
     },
     "require": {

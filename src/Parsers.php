@@ -1,19 +1,11 @@
 <?php
 
-namespace Gendiff;
+namespace Gendiff\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-function getDecodedProperties($pathToFile)
+function getDecodedProperties($extension, $content)
 {
-    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
-
-    try {
-        $content = getContent($pathToFile);
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
-
     switch ($extension) {
         case 'json':
             return json_decode($content, true);

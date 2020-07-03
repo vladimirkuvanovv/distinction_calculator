@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Formatters;
+namespace Gendiff\Formatters\RenderPretty;
 
 function renderPretty(array $properties)
 {

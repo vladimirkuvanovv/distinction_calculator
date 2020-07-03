@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff;
+namespace Gendiff\Builder;
 
 function builderTree($beforeProperties, $afterProperties)
 {

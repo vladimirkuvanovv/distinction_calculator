@@ -9,7 +9,7 @@
 
 ## Утилита осуществляет поиск различий между двумя файлами ##
 
-### Установка: composer global require utilitypack/diffutility###
+### Установка: composer global require utilitypack/diffutility ###
 
 ## 1. Вывод справочной информации ##
 
