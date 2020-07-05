@@ -39,5 +39,4 @@ class GenDiffTest extends TestCase
     {
         return __DIR__ . "/fixtures/{$filename}";
     }
-
 }
