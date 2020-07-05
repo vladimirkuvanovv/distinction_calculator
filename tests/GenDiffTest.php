@@ -8,8 +8,6 @@ use function Gendiff\Differ\genDiff;
 
 class GenDiffTest extends TestCase
 {
-    protected $path = '';
-
     public function testGenDiffPrettyFormat()
     {
         $expected = file_get_contents($this->getPath('rightPretty'));
