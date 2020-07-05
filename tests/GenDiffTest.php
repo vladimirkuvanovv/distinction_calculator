@@ -8,49 +8,36 @@ use function Gendiff\Differ\genDiff;
 
 class GenDiffTest extends TestCase
 {
-    protected $format = '';
-    protected $rightPrettyFilePath = '';
-    protected $beforeJsonFilePath  = '';
-    protected $afterJsonFilePath   = '';
+    protected $path = '';
 
-    protected $rightPlainFilePath = '';
-    protected $beforeYmlFilePath  = '';
-    protected $afterYmlFilePath   = '';
-
-    protected $rightJsonFilePath = '';
-
-    protected function setUp()
+    public function testGenDiffPrettyFormat()
     {
-        $this->format = 'pretty';
-        $this->rightPrettyFilePath = __DIR__ . '/fixtures/rightPretty';
-        $this->beforeJsonFilePath  = __DIR__ . '/fixtures/before.json';
-        $this->afterJsonFilePath   = __DIR__ . '/fixtures/after.json';
-
-        $this->rightPlainFilePath = __DIR__ . '/fixtures/rightPlainTree';
-        $this->beforeYmlFilePath  = __DIR__ . '/fixtures/before.yml';
-        $this->afterYmlFilePath   = __DIR__ . '/fixtures/after.yml';
-
-        $this->rightJsonFilePath = __DIR__ . '/fixtures/rightJsonTree.json';
+        $expected = file_get_contents($this->getPath('rightPretty'));
+        $this->assertEquals($expected, genDiff($this->getPath('before.json'), $this->getPath('after.json')));
     }
 
-    public function testGenDiff()
+    public function testGenDiffPlainFormat()
     {
-        $expected = file_get_contents($this->rightPrettyFilePath);
-        $this->assertEquals($expected, genDiff($this->beforeJsonFilePath, $this->afterJsonFilePath, $this->format));
+        $expected = file_get_contents($this->getPath('rightPlainTree'));
+        $this->assertEquals($expected, genDiff($this->getPath('before.yml'), $this->getPath('after.yml'), 'plain'));
+    }
 
-        $this->format = 'plain';
-        $expected = file_get_contents($this->rightPlainFilePath);
-        $this->assertEquals($expected, genDiff($this->beforeYmlFilePath, $this->afterYmlFilePath, $this->format));
-
-        $this->format = 'json';
-        $expected = file_get_contents($this->rightJsonFilePath);
-        $this->assertEquals($expected, genDiff($this->beforeJsonFilePath, $this->afterJsonFilePath, $this->format));
+    public function testGenDiffJsonFormat()
+    {
+        $expected = file_get_contents($this->getPath('rightJsonTree.json'));
+        $this->assertEquals($expected, genDiff($this->getPath('before.json'), $this->getPath('after.json'), 'json'));
     }
 
     public function testException()
     {
         $this->expectException(\Exception::class);
 
-        genDiff(__DIR__ . '/fixtures/befor.js', __DIR__ . '/fixtures/after.js');
+        genDiff($this->getPath('bef.json'), $this->getPath('aft.json'));
     }
+
+    protected function getPath($filename)
+    {
+        return __DIR__ . "/fixtures/{$filename}";
+    }
+
 }
