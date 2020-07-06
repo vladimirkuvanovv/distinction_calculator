@@ -4,8 +4,7 @@ namespace Gendiff\Differ;
 
 use function Gendiff\Builder\builderTree;
 use function Gendiff\Formatters\Formatters\renderDiff;
-use function Gendiff\Parsers\getContent;
-use function Gendiff\Parsers\getDecodedProperties;
+use function Gendiff\Parsers\parse;
 
 function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
 {
@@ -15,10 +14,21 @@ function genDiff($pathToFileBefore, $pathToFileAfter, $format = 'pretty')
     $contentFromFileBefore = getContent($pathToFileBefore);
     $contentFromFileAfter = getContent($pathToFileAfter);
 
-    $beforeDecode = getDecodedProperties($extensionFileBefore, $contentFromFileBefore);
-    $afterDecode  = getDecodedProperties($extensionFileAfter, $contentFromFileAfter);
+    $dataBefore = parse($extensionFileBefore, $contentFromFileBefore);
+    $dataAfter  = parse($extensionFileAfter, $contentFromFileAfter);
 
-    $tree = builderTree($beforeDecode, $afterDecode);
+    $tree = builderTree($dataBefore, $dataAfter);
 
     return renderDiff($format, $tree);
+}
+
+function getContent($pathToFile)
+{
+    $realPath = realpath($pathToFile);
+
+    if (!$realPath) {
+        throw new \Exception('wrong file path');
+    }
+
+    return file_get_contents($realPath);
 }

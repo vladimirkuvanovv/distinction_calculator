@@ -2,68 +2,68 @@
 
 namespace Gendiff\Formatters\RenderPretty;
 
-function renderPretty(array $properties)
+function renderPretty(array $tree)
 {
-    return buildPretty($properties);
+    return buildPretty($tree);
 }
 
-function buildPretty($properties, $level = 0)
+function buildPretty($tree, $level = 0)
 {
     $offset = getOffset($level);
 
-    $resultForString = array_map(function ($property) use ($level, $offset) {
-        $property_name = $property['key'];
-        $resultString = [];
+    $resultForPretty = array_map(function ($node) use ($level, $offset) {
+        $node_name = $node['key'];
+        $itemForPretty = [];
 
-        if ($property['type']) {
-            switch ($property['type']) {
+        if ($node['type']) {
+            switch ($node['type']) {
                 case 'nested':
                     $level += 1;
                     $offset = getOffset($level);
-                    $newProperties = buildPretty($property['children'], $level);
-                    return $offset . "$property_name: " . $newProperties;
+                    $newProperties = buildPretty($node['children'], $level);
+                    return $offset . "$node_name: " . $newProperties;
                 case 'unchanged':
                     $level += 2;
-                    $resultString[] = $offset
-                        . "    $property_name: "
-                        . toStringForRenderPretty($property['currentValue'], $level);
+                    $itemForPretty[] = $offset
+                        . "    $node_name: "
+                        . stringifyForRenderPretty($node['currentValue'], $level);
                     break;
                 case 'changed':
                     $level += 2;
-                    $resultString[] = $offset
-                        . "  + $property_name: "
-                        . toStringForRenderPretty($property['currentValue'], $level);
-                    $resultString[] = $offset
-                        . "  - $property_name: "
-                        . toStringForRenderPretty($property['previousValue'], $level);
+                    $itemForPretty[] = $offset
+                        . "  + $node_name: "
+                        . stringifyForRenderPretty($node['currentValue'], $level);
+                    $itemForPretty[] = $offset
+                        . "  - $node_name: "
+                        . stringifyForRenderPretty($node['previousValue'], $level);
                     break;
                 case 'removed':
                     $level += 2;
-                    $resultString[] = $offset
-                        . "  - $property_name: "
-                        . toStringForRenderPretty($property['previousValue'], $level);
+                    $itemForPretty[] = $offset
+                        . "  - $node_name: "
+                        . stringifyForRenderPretty($node['previousValue'], $level);
                     break;
                 case 'added':
                     $level += 2;
-                    $resultString[] = $offset
-                        . "  + $property_name: "
-                        . toStringForRenderPretty($property['currentValue'], $level);
+                    $itemForPretty[] = $offset
+                        . "  + $node_name: "
+                        . stringifyForRenderPretty($node['currentValue'], $level);
                     break;
             }
 
-            return implode(PHP_EOL, $resultString);
+            return implode(PHP_EOL, $itemForPretty);
         }
 
         return null;
-    }, $properties);
+    }, $tree);
 
-    array_unshift($resultForString, '{');
-    array_push($resultForString, $offset . "}");
+    array_unshift($resultForPretty, '{');
+    array_push($resultForPretty, $offset . "}");
 
-    return implode(PHP_EOL, array_filter($resultForString));
+    return implode(PHP_EOL, array_filter($resultForPretty));
 }
 
-function toStringForRenderPretty($value, $level = 0)
+function stringifyForRenderPretty($value, $level = 0)
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';

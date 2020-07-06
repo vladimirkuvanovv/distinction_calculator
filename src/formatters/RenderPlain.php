@@ -2,53 +2,53 @@
 
 namespace Gendiff\Formatters\RenderPlain;
 
-function renderPlain(array $properties)
+function renderPlain(array $tree)
 {
-    return buildPlain($properties);
+    return buildPlain($tree);
 }
 
-function buildPlain($properties, $fullNameProperty = '')
+function buildPlain($tree, $fullNameProperty = '')
 {
-    $resultForPlain = array_map(function ($property) use ($fullNameProperty) {
-        $key = $property['key'];
+    $resultForPlain = array_map(function ($node) use ($fullNameProperty) {
+        $key = $node['key'];
         $fullNameProperty .= $key;
-        if ($property['type']) {
-            switch ($property['type']) {
+        if ($node['type']) {
+            switch ($node['type']) {
                 case 'nested':
-                    return buildPlain($property['children'], "$fullNameProperty.");
+                    return buildPlain($node['children'], "$fullNameProperty.");
                     break;
                 case 'changed':
-                    $resultPlain[] = sprintf(
+                    $itemForPlain[] = sprintf(
                         "Property '{$fullNameProperty}' was changed. From '%s' to '%s'",
-                        toStringForRenderPlain($property['previousValue']),
-                        toStringForRenderPlain($property['currentValue'])
+                        stringifyForRenderPlain($node['previousValue']),
+                        stringifyForRenderPlain($node['currentValue'])
                     );
                     break;
                 case 'removed':
-                    $resultPlain[] = sprintf("Property '{$fullNameProperty}' was removed");
+                    $itemForPlain[] = sprintf("Property '{$fullNameProperty}' was removed");
                     break;
                 case 'added':
-                    $resultPlain[] = sprintf(
+                    $itemForPlain[] = sprintf(
                         "Property '{$fullNameProperty}' was added with value: '%s'",
-                        toStringForRenderPlain($property['currentValue'])
+                        stringifyForRenderPlain($node['currentValue'])
                     );
                     break;
             }
 
-            if (isset($resultPlain)) {
-                return implode(PHP_EOL, $resultPlain);
+            if (isset($itemForPlain)) {
+                return implode(PHP_EOL, $itemForPlain);
             }
         }
 
         return null;
-    }, $properties);
+    }, $tree);
 
     return implode(PHP_EOL, array_filter($resultForPlain, function ($item) {
         return !empty($item);
     }));
 }
 
-function toStringForRenderPlain($value)
+function stringifyForRenderPlain($value)
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
