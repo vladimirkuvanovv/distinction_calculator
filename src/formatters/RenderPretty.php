@@ -11,7 +11,7 @@ function buildPretty($tree, $level = 0)
 {
     $offset = getOffset($level);
 
-    $resultForPretty = array_map(function ($node) use ($level, $offset) {
+    $nodesForPretty = array_map(function ($node) use ($level, $offset) {
         $node_name = $node['key'];
         $itemForPretty = [];
 
@@ -20,8 +20,8 @@ function buildPretty($tree, $level = 0)
                 case 'nested':
                     $level += 1;
                     $offset = getOffset($level);
-                    $newProperties = buildPretty($node['children'], $level);
-                    return $offset . "$node_name: " . $newProperties;
+                    $newChildren = buildPretty($node['children'], $level);
+                    return $offset . "$node_name: " . $newChildren;
                 case 'unchanged':
                     $level += 2;
                     $itemForPretty[] = $offset
@@ -57,10 +57,10 @@ function buildPretty($tree, $level = 0)
         return null;
     }, $tree);
 
-    array_unshift($resultForPretty, '{');
-    array_push($resultForPretty, $offset . "}");
+    array_unshift($nodesForPretty, '{');
+    array_push($nodesForPretty, $offset . "}");
 
-    return implode(PHP_EOL, array_filter($resultForPretty));
+    return implode(PHP_EOL, array_filter($nodesForPretty));
 }
 
 function stringifyForRenderPretty($value, $level = 0)
@@ -74,14 +74,14 @@ function stringifyForRenderPretty($value, $level = 0)
 
         $keys = array_keys($value);
 
-        $nestedString = array_map(function ($key) use ($offset, $value) {
+        $nestedItem = array_map(function ($key) use ($offset, $value) {
             return $offset . "$key: " . $value[$key];
         }, $keys);
 
-        array_unshift($nestedString, '{');
-        array_push($nestedString, getOffset($level - 1) . '}');
+        array_unshift($nestedItem, '{');
+        array_push($nestedItem, getOffset($level - 1) . '}');
 
-        return implode(PHP_EOL, $nestedString);
+        return implode(PHP_EOL, $nestedItem);
     }
 
     return $value;

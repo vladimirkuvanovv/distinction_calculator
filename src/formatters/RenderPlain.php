@@ -7,29 +7,29 @@ function renderPlain(array $tree)
     return buildPlain($tree);
 }
 
-function buildPlain($tree, $fullNameProperty = '')
+function buildPlain($tree, $fullNameNode = '')
 {
-    $resultForPlain = array_map(function ($node) use ($fullNameProperty) {
+    $nodesForPlain = array_map(function ($node) use ($fullNameNode) {
         $key = $node['key'];
-        $fullNameProperty .= $key;
+        $fullNameNode .= $key;
         if ($node['type']) {
             switch ($node['type']) {
                 case 'nested':
-                    return buildPlain($node['children'], "$fullNameProperty.");
+                    return buildPlain($node['children'], "$fullNameNode.");
                     break;
                 case 'changed':
                     $itemForPlain[] = sprintf(
-                        "Property '{$fullNameProperty}' was changed. From '%s' to '%s'",
+                        "Property '{$fullNameNode}' was changed. From '%s' to '%s'",
                         stringifyForRenderPlain($node['previousValue']),
                         stringifyForRenderPlain($node['currentValue'])
                     );
                     break;
                 case 'removed':
-                    $itemForPlain[] = sprintf("Property '{$fullNameProperty}' was removed");
+                    $itemForPlain[] = sprintf("Property '{$fullNameNode}' was removed");
                     break;
                 case 'added':
                     $itemForPlain[] = sprintf(
-                        "Property '{$fullNameProperty}' was added with value: '%s'",
+                        "Property '{$fullNameNode}' was added with value: '%s'",
                         stringifyForRenderPlain($node['currentValue'])
                     );
                     break;
@@ -43,7 +43,7 @@ function buildPlain($tree, $fullNameProperty = '')
         return null;
     }, $tree);
 
-    return implode(PHP_EOL, array_filter($resultForPlain, function ($item) {
+    return implode(PHP_EOL, array_filter($nodesForPlain, function ($item) {
         return !empty($item);
     }));
 }
