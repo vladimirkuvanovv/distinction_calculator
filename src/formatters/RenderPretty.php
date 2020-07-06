@@ -26,28 +26,28 @@ function buildPretty($tree, $level = 0)
                     $level += 2;
                     $itemForPretty[] = $offset
                         . "    $node_name: "
-                        . stringifyForRenderPretty($node['currentValue'], $level);
+                        . stringify($node['currentValue'], $level);
                     break;
                 case 'changed':
                     $level += 2;
                     $itemForPretty[] = $offset
                         . "  + $node_name: "
-                        . stringifyForRenderPretty($node['currentValue'], $level);
+                        . stringify($node['currentValue'], $level);
                     $itemForPretty[] = $offset
                         . "  - $node_name: "
-                        . stringifyForRenderPretty($node['previousValue'], $level);
+                        . stringify($node['previousValue'], $level);
                     break;
                 case 'removed':
                     $level += 2;
                     $itemForPretty[] = $offset
                         . "  - $node_name: "
-                        . stringifyForRenderPretty($node['previousValue'], $level);
+                        . stringify($node['previousValue'], $level);
                     break;
                 case 'added':
                     $level += 2;
                     $itemForPretty[] = $offset
                         . "  + $node_name: "
-                        . stringifyForRenderPretty($node['currentValue'], $level);
+                        . stringify($node['currentValue'], $level);
                     break;
             }
 
@@ -63,7 +63,7 @@ function buildPretty($tree, $level = 0)
     return implode(PHP_EOL, array_filter($nodesForPretty));
 }
 
-function stringifyForRenderPretty($value, $level = 0)
+function stringify($value, $level = 0)
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';

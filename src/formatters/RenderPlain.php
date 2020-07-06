@@ -20,8 +20,8 @@ function buildPlain($tree, $fullNameNode = '')
                 case 'changed':
                     $itemForPlain[] = sprintf(
                         "Property '{$fullNameNode}' was changed. From '%s' to '%s'",
-                        stringifyForRenderPlain($node['previousValue']),
-                        stringifyForRenderPlain($node['currentValue'])
+                        stringify($node['previousValue']),
+                        stringify($node['currentValue'])
                     );
                     break;
                 case 'removed':
@@ -30,7 +30,7 @@ function buildPlain($tree, $fullNameNode = '')
                 case 'added':
                     $itemForPlain[] = sprintf(
                         "Property '{$fullNameNode}' was added with value: '%s'",
-                        stringifyForRenderPlain($node['currentValue'])
+                        stringify($node['currentValue'])
                     );
                     break;
             }
@@ -48,7 +48,7 @@ function buildPlain($tree, $fullNameNode = '')
     }));
 }
 
-function stringifyForRenderPlain($value)
+function stringify($value)
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
