@@ -77,6 +77,5 @@ function getValueForNode($key, $type, $dataBefore = [], $dataAfter = [])
                 'type'         => $type,
                 'currentValue' => $dataBefore,
             ];
-
     }
 }
