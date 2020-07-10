@@ -7,38 +7,37 @@ function renderPlain(array $tree)
     return buildPlain($tree);
 }
 
-function buildPlain($tree, $fullNameNode = '')
+function buildPlain($tree, $keys = [])
 {
-    $nodesForPlain = array_map(function ($node) use ($fullNameNode) {
-        $key = $node['key'];
-        $fullNameNode .= $key;
-        if ($node['type']) {
-            switch ($node['type']) {
-                case 'nested':
-                    return buildPlain($node['children'], "$fullNameNode.");
-                    break;
-                case 'changed':
-                    $itemForPlain[] = sprintf(
-                        "Property '{$fullNameNode}' was changed. From '%s' to '%s'",
-                        stringify($node['previousValue']),
-                        stringify($node['currentValue'])
-                    );
-                    break;
-                case 'removed':
-                    $itemForPlain[] = sprintf("Property '{$fullNameNode}' was removed");
-                    break;
-                case 'added':
-                    $itemForPlain[] = sprintf(
-                        "Property '{$fullNameNode}' was added with value: '%s'",
-                        stringify($node['currentValue'])
-                    );
-                    break;
-            }
+    $nodesForPlain = array_map(function ($node) use ($keys) {
+        $keys[] = $node['key'];
+
+        switch ($node['type']) {
+            case 'nested':
+                return buildPlain($node['children'], $keys);
+            case 'changed':
+                $itemForPlain[] = sprintf(
+                    "Property '%s' was changed. From '%s' to '%s'",
+                    implode('.', $keys),
+                    stringify($node['previousValue']),
+                    stringify($node['currentValue'])
+                );
+                break;
+            case 'removed':
+                $itemForPlain[] = sprintf("Property '%s' was removed", implode('.', $keys));
+                break;
+            case 'added':
+                $itemForPlain[] = sprintf(
+                    "Property '%s' was added with value: '%s'",
+                    implode('.', $keys),
+                    stringify($node['currentValue'])
+                );
+                break;
+        }
 
             if (isset($itemForPlain)) {
                 return implode(PHP_EOL, $itemForPlain);
             }
-        }
 
         return null;
     }, $tree);
