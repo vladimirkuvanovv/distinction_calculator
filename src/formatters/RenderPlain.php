@@ -7,30 +7,28 @@ function renderPlain(array $tree)
     return buildPlain($tree);
 }
 
-function buildPlain($tree, $keys = [])
+function buildPlain($tree, $parent = '')
 {
-    $nodesForPlain = array_map(function ($node) use ($keys) {
-        $keys[] = $node['key'];
+    $nodesForPlain = array_map(function ($node) use ($parent) {
+        $key = $node['key'];
         $itemForPlain = [];
 
         switch ($node['type']) {
             case 'nested':
-                return buildPlain($node['children'], $keys);
+                return buildPlain($node['children'], "{$parent}{$key}.");
             case 'changed':
                 $itemForPlain[] = sprintf(
-                    "Property '%s' was changed. From '%s' to '%s'",
-                    getFullName($keys),
+                    "Property '{$parent}{$key}' was changed. From '%s' to '%s'",
                     stringify($node['previousValue']),
                     stringify($node['currentValue'])
                 );
                 break;
             case 'removed':
-                $itemForPlain[] = sprintf("Property '%s' was removed", getFullName($keys));
+                $itemForPlain[] = sprintf("Property '{$parent}{$key}' was removed");
                 break;
             case 'added':
                 $itemForPlain[] = sprintf(
-                    "Property '%s' was added with value: '%s'",
-                    getFullName($keys),
+                    "Property '{$parent}{$key}' was added with value: '%s'",
                     stringify($node['currentValue'])
                 );
                 break;
@@ -56,9 +54,4 @@ function stringify($value)
     }
 
     return $value;
-}
-
-function getFullName($keys)
-{
-    return implode('.', $keys);
 }
