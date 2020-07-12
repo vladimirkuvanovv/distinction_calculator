@@ -11,7 +11,8 @@ function builderTree($dataBefore, $dataAfter)
     return array_map(function ($key) use ($dataBefore, $dataAfter) {
         if (
             isset($dataBefore[$key], $dataAfter[$key])
-            && is_array($dataBefore[$key]) && is_array($dataAfter[$key])
+            && is_array($dataBefore[$key])
+            && is_array($dataAfter[$key])
         ) {
             return buildNode($key, 'nested', [], [], builderTree($dataBefore[$key], $dataAfter[$key]));
         }
