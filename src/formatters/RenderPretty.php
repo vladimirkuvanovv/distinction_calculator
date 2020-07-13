@@ -9,36 +9,37 @@ function renderPretty(array $tree)
 
 function buildPretty($tree, $level = 0)
 {
-    $offset = getOffset($level);
+    $spaces = '    ';
+    $offset = str_repeat($spaces, $level);
 
-    $nodesForPretty = array_map(function ($node) use ($level, $offset) {
+    $nodesForPretty = array_map(function ($node) use ($spaces, $offset, $level) {
         $node_name = $node['key'];
 
         switch ($node['type']) {
             case 'nested':
                 $newChildren = buildPretty($node['children'], $level + 1);
-                return "    $node_name: " . $newChildren;
+                return $spaces . "$node_name: " . $newChildren;
             case 'unchanged':
-                return $offset . "    $node_name: " . stringify($node['currentValue'], $level);
+                return $spaces . $offset . "$node_name: " . stringify($node['currentValue'], $level + 1);
                 break;
             case 'changed':
                 return $offset
                     . "  + $node_name: "
-                    . stringify($node['currentValue'], $level + 1)
+                    . stringify($node['currentValue'], $level + 1, $spaces)
                     . PHP_EOL
                     . $offset
                     . "  - $node_name: "
-                    . stringify($node['previousValue'], $level + 1);
+                    . stringify($node['previousValue'], $level + 1, $spaces);
                 break;
             case 'removed':
                 return $offset
                     . "  - $node_name: "
-                    . stringify($node['previousValue'], $level + 1);
+                    . stringify($node['previousValue'], $level + 1, $spaces);
                 break;
             case 'added':
                 return $offset
                     . "  + $node_name: "
-                    . stringify($node['currentValue'], $level + 1);
+                    . stringify($node['currentValue'], $level + 1, $spaces);
                 break;
         }
     }, $tree);
@@ -48,31 +49,25 @@ function buildPretty($tree, $level = 0)
     return "{" . PHP_EOL . implode(PHP_EOL, array_filter($nodesForPretty));
 }
 
-function stringify($value, $level = 0)
+function stringify($value, $level = 0, $spaces = '')
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
     }
 
     if (is_array($value)) {
-        $offset = getOffset($level);
+        $offset = str_repeat($spaces, $level);
 
         $keys = array_keys($value);
 
-        $nestedItem = array_map(function ($key) use ($offset, $value) {
-            return $offset . "$key: " . $value[$key];
+        $nestedItem = array_map(function ($key) use ($spaces, $offset, $value) {
+            return $spaces . $offset . "$key: " . $value[$key];
         }, $keys);
 
-        array_push($nestedItem, getOffset($level) . '}');
+        array_push($nestedItem, $offset . '}');
 
         return "{" . PHP_EOL . implode(PHP_EOL, $nestedItem);
     }
 
     return $value;
-}
-
-function getOffset($level)
-{
-    $spaces = '    ';
-    return str_repeat($spaces, $level);
 }
