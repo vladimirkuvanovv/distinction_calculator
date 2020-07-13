@@ -2,51 +2,51 @@
     {
         "key": "common",
         "type": "nested",
-        "previousValue": [],
-        "currentValue": [],
+        "dataBefore": null,
+        "dataAfter": null,
         "children": [
             {
                 "key": "setting1",
                 "type": "unchanged",
-                "previousValue": [],
-                "currentValue": "Value 1",
+                "dataBefore": "Value 1",
+                "dataAfter": "Value 1",
                 "children": []
             },
             {
                 "key": "setting2",
                 "type": "removed",
-                "previousValue": "200",
-                "currentValue": [],
+                "dataBefore": "200",
+                "dataAfter": null,
                 "children": []
             },
             {
                 "key": "setting3",
                 "type": "unchanged",
-                "previousValue": [],
-                "currentValue": true,
+                "dataBefore": true,
+                "dataAfter": true,
                 "children": []
             },
             {
                 "key": "setting6",
                 "type": "removed",
-                "previousValue": {
+                "dataBefore": {
                     "key": "value"
                 },
-                "currentValue": [],
+                "dataAfter": null,
                 "children": []
             },
             {
                 "key": "setting4",
                 "type": "added",
-                "previousValue": [],
-                "currentValue": "blah blah",
+                "dataBefore": null,
+                "dataAfter": "blah blah",
                 "children": []
             },
             {
                 "key": "setting5",
                 "type": "added",
-                "previousValue": [],
-                "currentValue": {
+                "dataBefore": null,
+                "dataAfter": {
                     "key5": "value5"
                 },
                 "children": []
@@ -56,21 +56,21 @@
     {
         "key": "group1",
         "type": "nested",
-        "previousValue": [],
-        "currentValue": [],
+        "dataBefore": null,
+        "dataAfter": null,
         "children": [
             {
                 "key": "baz",
                 "type": "changed",
-                "previousValue": "bas",
-                "currentValue": "bars",
+                "dataBefore": "bas",
+                "dataAfter": "bars",
                 "children": []
             },
             {
                 "key": "foo",
                 "type": "unchanged",
-                "previousValue": [],
-                "currentValue": "bar",
+                "dataBefore": "bar",
+                "dataAfter": "bar",
                 "children": []
             }
         ]
@@ -78,17 +78,17 @@
     {
         "key": "group2",
         "type": "removed",
-        "previousValue": {
+        "dataBefore": {
             "abc": "12345"
         },
-        "currentValue": [],
+        "dataAfter": null,
         "children": []
     },
     {
         "key": "group3",
         "type": "added",
-        "previousValue": [],
-        "currentValue": {
+        "dataBefore": null,
+        "dataAfter": {
             "fee": "100500"
         },
         "children": []
