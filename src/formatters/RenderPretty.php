@@ -41,7 +41,7 @@ function buildPretty($tree, $level = 0)
                     . stringify($node['currentValue'], $level + 1);
                 break;
         }
-    },$tree);
+    }, $tree);
 
     array_push($nodesForPretty, $offset . "}");
 
