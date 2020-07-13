@@ -13,40 +13,34 @@ function buildPretty($tree, $level = 0)
 
     $nodesForPretty = array_map(function ($node) use ($level, $offset) {
         $node_name = $node['key'];
-        $level += 1;
-        $itemForPretty = [];
 
         switch ($node['type']) {
             case 'nested':
-                $offset = getOffset($level);
-                $newChildren = buildPretty($node['children'], $level);
-                return $offset . "$node_name: " . $newChildren;
+                $newChildren = buildPretty($node['children'], $level + 1);
+                return "    $node_name: " . $newChildren;
             case 'unchanged':
-                $itemForPretty[] = $offset
-                    . "    $node_name: "
-                    . stringify($node['currentValue'], $level);
+                return $offset . "    $node_name: " . stringify($node['currentValue'], $level);
                 break;
             case 'changed':
-                $itemForPretty[] = $offset
+                return $offset
                     . "  + $node_name: "
-                    . stringify($node['currentValue'], $level);
-                $itemForPretty[] = $offset
+                    . stringify($node['currentValue'], $level + 1)
+                    . PHP_EOL
+                    . $offset
                     . "  - $node_name: "
-                    . stringify($node['previousValue'], $level);
+                    . stringify($node['previousValue'], $level + 1);
                 break;
             case 'removed':
-                $itemForPretty[] = $offset
+                return $offset
                     . "  - $node_name: "
-                    . stringify($node['previousValue'], $level);
+                    . stringify($node['previousValue'], $level + 1);
                 break;
             case 'added':
-                $itemForPretty[] = $offset
+                return $offset
                     . "  + $node_name: "
-                    . stringify($node['currentValue'], $level);
+                    . stringify($node['currentValue'], $level + 1);
                 break;
         }
-
-        return implode(PHP_EOL, $itemForPretty);
 
     }, $tree);
 
@@ -62,7 +56,6 @@ function stringify($value, $level = 0)
     }
 
     if (is_array($value)) {
-        $level += 1;
         $offset = getOffset($level);
 
         $keys = array_keys($value);
@@ -71,7 +64,7 @@ function stringify($value, $level = 0)
             return $offset . "$key: " . $value[$key];
         }, $keys);
 
-        array_push($nestedItem, getOffset($level - 1) . '}');
+        array_push($nestedItem, getOffset($level) . '}');
 
         return "{" . PHP_EOL . implode(PHP_EOL, $nestedItem);
     }
