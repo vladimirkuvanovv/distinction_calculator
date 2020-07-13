@@ -2,57 +2,76 @@
     {
         "key": "common",
         "type": "nested",
+        "previousValue": [],
+        "currentValue": [],
         "children": [
             {
                 "key": "setting1",
                 "type": "unchanged",
-                "currentValue": "Value 1"
+                "previousValue": [],
+                "currentValue": "Value 1",
+                "children": []
             },
             {
                 "key": "setting2",
                 "type": "removed",
-                "previousValue": "200"
+                "previousValue": "200",
+                "currentValue": [],
+                "children": []
             },
             {
                 "key": "setting3",
                 "type": "unchanged",
-                "currentValue": true
+                "previousValue": [],
+                "currentValue": true,
+                "children": []
             },
             {
                 "key": "setting6",
                 "type": "removed",
                 "previousValue": {
                     "key": "value"
-                }
+                },
+                "currentValue": [],
+                "children": []
             },
             {
                 "key": "setting4",
                 "type": "added",
-                "currentValue": "blah blah"
+                "previousValue": [],
+                "currentValue": "blah blah",
+                "children": []
             },
             {
                 "key": "setting5",
                 "type": "added",
+                "previousValue": [],
                 "currentValue": {
                     "key5": "value5"
-                }
+                },
+                "children": []
             }
         ]
     },
     {
         "key": "group1",
         "type": "nested",
+        "previousValue": [],
+        "currentValue": [],
         "children": [
             {
                 "key": "baz",
                 "type": "changed",
                 "previousValue": "bas",
-                "currentValue": "bars"
+                "currentValue": "bars",
+                "children": []
             },
             {
                 "key": "foo",
                 "type": "unchanged",
-                "currentValue": "bar"
+                "previousValue": [],
+                "currentValue": "bar",
+                "children": []
             }
         ]
     },
@@ -61,13 +80,17 @@
         "type": "removed",
         "previousValue": {
             "abc": "12345"
-        }
+        },
+        "currentValue": [],
+        "children": []
     },
     {
         "key": "group3",
         "type": "added",
+        "previousValue": [],
         "currentValue": {
             "fee": "100500"
-        }
+        },
+        "children": []
     }
 ]
