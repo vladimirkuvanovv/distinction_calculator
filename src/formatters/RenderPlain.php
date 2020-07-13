@@ -10,27 +10,24 @@ function renderPlain(array $tree)
 function buildPlain($tree, $parent = '')
 {
     $nodesForPlain = array_map(function ($node) use ($parent) {
-        $key = $node['key'];
+        [$key, $type] = [$node['key'], $node['type']];
 
-        switch ($node['type']) {
+        switch ($type) {
             case 'nested':
                 return buildPlain($node['children'], "{$parent}{$key}.");
             case 'changed':
                 return sprintf(
                     "Property '{$parent}{$key}' was changed. From '%s' to '%s'",
-                    stringify($node['previousValue']),
-                    stringify($node['currentValue'])
+                    stringify($node['dataBefore']),
+                    stringify($node['dataAfter'])
                 );
-                break;
             case 'removed':
                 return sprintf("Property '{$parent}{$key}' was removed");
-                break;
             case 'added':
                 return sprintf(
                     "Property '{$parent}{$key}' was added with value: '%s'",
-                    stringify($node['currentValue'])
+                    stringify($node['dataAfter'])
                 );
-                break;
         }
     }, $tree);
 
