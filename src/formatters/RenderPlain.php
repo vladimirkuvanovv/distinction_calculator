@@ -32,7 +32,6 @@ function buildPlain($tree, $parent = '')
                 );
                 break;
         }
-
     }, $tree);
 
     return implode(PHP_EOL, array_filter($nodesForPlain, function ($item) {
