@@ -9,16 +9,12 @@ function builderTree($dataBefore, $dataAfter)
     );
 
     return array_map(function ($key) use ($dataBefore, $dataAfter) {
-        if (
-            isset($dataBefore[$key], $dataAfter[$key])
-            && is_array($dataBefore[$key])
-            && is_array($dataAfter[$key])
-        ) {
-            return buildNode($key, 'nested', [], [], builderTree($dataBefore[$key], $dataAfter[$key]));
+        if (is_array($dataBefore[$key]) && is_array($dataAfter[$key])) {
+            return buildNode($key, 'nested', null, null, builderTree($dataBefore[$key], $dataAfter[$key]));
         }
 
         if (!isset($dataBefore[$key]) && isset($dataAfter[$key])) {
-            return buildNode($key, 'added', [], $dataAfter[$key]);
+            return buildNode($key, 'added', null, $dataAfter[$key]);
         }
 
         if (isset($dataBefore[$key]) && !isset($dataAfter[$key])) {
@@ -26,14 +22,12 @@ function builderTree($dataBefore, $dataAfter)
         }
 
         if ($dataBefore[$key] === $dataAfter[$key]) {
-            return buildNode($key, 'unchanged', [], $dataAfter[$key]);
+            return buildNode($key, 'unchanged', null, $dataAfter[$key]);
         }
 
         if ($dataBefore[$key] !== $dataAfter[$key]) {
             return buildNode($key, 'changed', $dataBefore[$key], $dataAfter[$key]);
         }
-
-        return [];
     }, $unique_keys);
 }
 
