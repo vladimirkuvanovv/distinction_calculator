@@ -11,30 +11,27 @@ function buildPlain($tree, $parent = '')
 {
     $nodesForPlain = array_map(function ($node) use ($parent) {
         $key = $node['key'];
-        $itemForPlain = [];
 
         switch ($node['type']) {
             case 'nested':
                 return buildPlain($node['children'], "{$parent}{$key}.");
             case 'changed':
-                $itemForPlain[] = sprintf(
+                return sprintf(
                     "Property '{$parent}{$key}' was changed. From '%s' to '%s'",
                     stringify($node['previousValue']),
                     stringify($node['currentValue'])
                 );
                 break;
             case 'removed':
-                $itemForPlain[] = sprintf("Property '{$parent}{$key}' was removed");
+                return sprintf("Property '{$parent}{$key}' was removed");
                 break;
             case 'added':
-                $itemForPlain[] = sprintf(
+                return sprintf(
                     "Property '{$parent}{$key}' was added with value: '%s'",
                     stringify($node['currentValue'])
                 );
                 break;
         }
-
-        return implode(PHP_EOL, $itemForPlain);
 
     }, $tree);
 
