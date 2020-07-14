@@ -8,7 +8,7 @@ function builderTree($dataBefore, $dataAfter)
         array_unique(array_merge(array_keys($dataBefore), array_keys($dataAfter)))
     );
 
-     $tree = array_map(function ($key) use ($dataBefore, $dataAfter) {
+     return array_map(function ($key) use ($dataBefore, $dataAfter) {
         if (!isset($dataBefore[$key])) {
             return buildNode($key, 'added', null, $dataAfter[$key]);
         }
@@ -26,9 +26,7 @@ function builderTree($dataBefore, $dataAfter)
         }
 
         return buildNode($key, 'unchanged', $dataBefore[$key], $dataAfter[$key]);
-    }, $unique_keys);
-
-    return $tree;
+     }, $unique_keys);
 }
 
 function buildNode($key, $type, $dataBefore = null, $dataAfter = null, $children = [])
