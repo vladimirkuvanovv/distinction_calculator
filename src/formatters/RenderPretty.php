@@ -2,6 +2,8 @@
 
 namespace Gendiff\Formatters\RenderPretty;
 
+const SPACES = '    ';
+
 function renderPretty(array $tree)
 {
     return buildPretty($tree);
@@ -9,18 +11,17 @@ function renderPretty(array $tree)
 
 function buildPretty($tree, $level = 0)
 {
-    $spaces = '    ';
-    $offset = str_repeat($spaces, $level);
+    $offset = str_repeat(SPACES, $level);
 
-    $nodesForPretty = array_map(function ($node) use ($spaces, $offset, $level) {
+    $nodesForPretty = array_map(function ($node) use ($offset, $level) {
         [$nodeName, $type] = [$node['key'], $node['type']];
 
         switch ($type) {
             case 'nested':
                 $newChildren = buildPretty($node['children'], $level + 1);
-                return $spaces . "$nodeName: " . $newChildren;
+                return SPACES . "$nodeName: " . $newChildren;
             case 'unchanged':
-                return $spaces . $offset . "$nodeName: " . stringify($node['dataAfter'], $offset, $level + 1);
+                return $offset . SPACES . "$nodeName: " . stringify($node['dataAfter'], $offset, $level + 1);
             case 'changed':
                 return $offset
                     . "  + $nodeName: "
@@ -52,8 +53,8 @@ function stringify($value, $parentOffset, $level = 0)
     }
 
     if (is_array($value)) {
-        $spaces = '    ';
-        $offset = str_repeat($spaces, $level);
+        $parentOffset = $parentOffset ?: SPACES;
+        $offset = str_repeat(SPACES, $level);
 
         $keys = array_keys($value);
 
