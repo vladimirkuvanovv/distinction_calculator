@@ -25,19 +25,19 @@ function buildPretty($tree, $level = 0)
             case 'changed':
                 return $offset
                     . "  + $nodeName: "
-                    . stringify($node['dataAfter'], $offset, $level + 1)
+                    . stringify($node['dataAfter'], $offset, $level)
                     . PHP_EOL
                     . $offset
                     . "  - $nodeName: "
-                    . stringify($node['dataBefore'], $offset, $level + 1);
+                    . stringify($node['dataBefore'], $offset, $level);
             case 'removed':
                 return $offset
                     . "  - $nodeName: "
-                    . stringify($node['dataBefore'], $offset, $level + 1);
+                    . stringify($node['dataBefore'], $offset, $level);
             case 'added':
                 return $offset
                     . "  + $nodeName: "
-                    . stringify($node['dataAfter'], $offset, $level + 1);
+                    . stringify($node['dataAfter'], $offset, $level);
         }
     }, $tree);
 
@@ -53,7 +53,7 @@ function stringify($value, $parentOffset, $level = 0)
     }
 
     if (is_array($value)) {
-        $parentOffset = $parentOffset ?: SPACES;
+        $parentOffset = $level ? $parentOffset : SPACES;
         $offset = str_repeat(SPACES, $level);
 
         $keys = array_keys($value);
