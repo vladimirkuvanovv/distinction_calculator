@@ -52,16 +52,14 @@ function stringify($value, $parentOffset, $level = 0)
         return $value;
     }
 
-    if (is_array($value)) {
-        $parentOffset = $level ? $parentOffset : INDENT;
-        $offset = str_repeat(INDENT, $level + 1);
+    $parentOffset = $level ? $parentOffset : INDENT;
+    $offset = str_repeat(INDENT, $level + 1);
 
-        $keys = array_keys($value);
+    $keys = array_keys($value);
 
-        $nestedItem = array_map(function ($key) use ($parentOffset, $offset, $value) {
-            return $parentOffset . $offset . "$key: " . $value[$key];
-        }, $keys);
+    $nestedItem = array_map(function ($key) use ($parentOffset, $offset, $value) {
+        return $parentOffset . $offset . "$key: " . $value[$key];
+    }, $keys);
 
-        return "{" . PHP_EOL . implode(PHP_EOL, $nestedItem) . PHP_EOL . $offset . "}";
-    }
+    return "{" . PHP_EOL . implode(PHP_EOL, $nestedItem) . PHP_EOL . $offset . "}";
 }
