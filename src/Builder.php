@@ -9,11 +9,11 @@ function builderTree($dataBefore, $dataAfter)
     );
 
      return array_map(function ($key) use ($dataBefore, $dataAfter) {
-        if (!isset($dataBefore[$key])) {
+        if (!key_exists($key, $dataBefore)) {
             return buildNode($key, 'added', null, $dataAfter[$key]);
         }
 
-        if (!isset($dataAfter[$key])) {
+        if (!key_exists($key, $dataAfter)) {
             return buildNode($key, 'removed', $dataBefore[$key]);
         }
 
